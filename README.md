@@ -5,9 +5,9 @@ Projeto final de Design de Software — Insper, 2026/2.
 
 ## Integrantes
 
-- [Nome completo] — [usuário do GitHub]
-- [Nome completo] — [usuário do GitHub]
-- [Nome completo] — [usuário do GitHub]
+- João Pedro Servidoni — [Servidoni31](https://github.com/Servidoni31)
+- João Damiani — [usuário do GitHub]
+- Guilherme Treves — [usuário do GitHub]
 
 ## Vídeo
 
