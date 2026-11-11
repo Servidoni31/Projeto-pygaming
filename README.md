@@ -39,11 +39,31 @@ quem tiver mais vida.
 
 ## Créditos dos assets
 
-**Cenário e trilha sonora:** "Cyberpunk Street Environment" por Luis Zuno
-(ansimuz) — https://ansimuz.itch.io — licença Creative Commons Zero (CC0).
-Uso livre, atribuição não obrigatória; creditado aqui por transparência.
+Todos os assets usados estão em domínio público (CC0), sem obrigação de
+atribuição. O crédito abaixo é por transparência.
 
-**Sprites dos personagens:** [preencher — fonte e licença de cada pacote usado]
+- **Cenário 1 e trilha sonora** — "Cyberpunk Street Environment", por
+  Luis Zuno (ansimuz) — CC0
+  https://opengameart.org/content/cyberpunk-street-environment
+
+- **Personagens e cenário 2** — "Streets of Fight", por Luis Zuno
+  (ansimuz) — CC0
+  https://opengameart.org/content/streets-of-fight
+
+O cenário 2 foi montado a partir da imagem de divulgação do pacote, que
+vinha com dois lutadores desenhados nela; a região foi coberta com uma
+faixa limpa da própria calçada.
+
+Também foram avaliados durante a escolha, mas não utilizados:
+
+- "Brawler Asset Character 'Vigilante' SMS", por Chasersgaming — CC0
+  https://opengameart.org/content/brawler-asset-character-vigilante-sms
+- "Agent Character", por Chasersgaming — CC0
+  https://opengameart.org/content/agent-character
+- "Platformer or Fighter Sprites", por Fracture — CC-BY-SA 3.0 / GPL 3.0
+  https://opengameart.org/content/platformer-or-fighter-sprites
+  Descartado por exigir share-alike e por não combinar em escala e paleta
+  com o cenário escolhido.
 
 ## Uso de inteligência artificial
 
