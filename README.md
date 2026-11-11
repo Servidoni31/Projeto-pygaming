@@ -18,9 +18,17 @@ Projeto final de Design de Software — Insper, 2026/2.
 Requisitos: Python 3 e PyGame.
 
 ```
-pip install pygame
+pip install pygame-ce
 python main.py
 ```
+
+Atenção ao `pygame-ce`: em Python 3.13 e 3.14 o pacote `pygame` comum não
+tem versão pré-compilada e o `pip install pygame` falha tentando compilar
+do zero. O `pygame-ce` é a versão mantida pela comunidade, é instalada
+normalmente nessas versões e se usa igual — o `import pygame` continua o
+mesmo. Em Python 3.12 ou anterior, `pip install pygame` também funciona.
+
+Testado em Python 3.14.6 com pygame-ce 2.5.8.
 
 ## Controles
 
