@@ -58,6 +58,11 @@ atribuição. O crédito abaixo é por transparência.
   (ansimuz) — CC0
   https://opengameart.org/content/streets-of-fight
 
+- **Cenário 3 e trilhas adicionais** — "Cyberpunk City 2", por Luis Zuno
+  (ansimuz). Uso pessoal e comercial, modificação e redistribuição
+  permitidas; crédito não obrigatório.
+  https://ansimuz.itch.io/
+
 O cenário 2 foi montado a partir da imagem de divulgação do pacote, que
 vinha com dois lutadores desenhados nela; a região foi coberta com uma
 faixa limpa da própria calçada.
