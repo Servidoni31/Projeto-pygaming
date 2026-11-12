@@ -71,6 +71,28 @@ Chão (altura dos pés): **y = 256**
 
 Imagem única, sem camadas. Chão: **y = 230**
 
+### Cenário 3 — telhado sobre a cidade
+
+| Arquivo | Tamanho |
+|---|---|
+| `cenario/cenario3.png` | 688 × 272 |
+
+Imagem única. Chão: **y = 144**
+
+As camadas soltas estão em `cenario/cenario3/` (back 96×160, middle
+144×160, front 272×160), caso alguém queira fazer parallax depois. A
+camada `front` original é de jogo de plataforma e tem telhados em alturas
+diferentes — o trecho plano mais largo tem só 76 px. O `cenario3.png`
+pronto já resolve isso repetindo esse trecho na horizontal.
+
+## Trilhas
+
+| Arquivo | Uso sugerido |
+|---|---|
+| `som/trilha.ogg` | cenário 1 |
+| `som/trilha2.ogg` | cenários 2 e 3 |
+| `som/menu.ogg` | telas de menu |
+
 Observação: este cenário foi montado a partir da imagem de divulgação do
 pacote Streets of Fight, que vinha com dois lutadores desenhados nela. A
 região foi coberta com uma faixa limpa da própria calçada. A versão sem o
