@@ -77,13 +77,15 @@ Imagem única, sem camadas. Chão: **y = 230**
 |---|---|
 | `cenario/cenario3.png` | 688 × 272 |
 
-Imagem única. Chão: **y = 144**
+Imagem única. Chão: **y = 194**
+
+Montado com o céu e os prédios das camadas `back` e `middle`, mais uma
+passarela metálica tirada do tileset do pacote, repetida na horizontal.
 
 As camadas soltas estão em `cenario/cenario3/` (back 96×160, middle
-144×160, front 272×160), caso alguém queira fazer parallax depois. A
-camada `front` original é de jogo de plataforma e tem telhados em alturas
-diferentes — o trecho plano mais largo tem só 76 px. O `cenario3.png`
-pronto já resolve isso repetindo esse trecho na horizontal.
+144×160, front 272×160), caso alguém queira fazer parallax depois.
+A camada `front` NÃO é chão: são telhados de prédios vizinhos, cenário de
+fundo do pacote original de plataforma. Não use como piso.
 
 ## Trilhas
 
