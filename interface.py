@@ -40,3 +40,10 @@ def desenhar_barra_vida(tela, x, y, vida, espelhada=False):
     pygame.draw.polygon(tela, (40, 220, 210), pontos)
 
     tela.set_clip(recorte_anterior)
+
+# feito com CoPilot
+def desenhar_cronometro(tela, fonte, tempo_restante):
+    numero = str(tempo_restante)
+    imagem_texto = fonte.render(numero, True, (255, 255, 255))
+    posicao = imagem_texto.get_rect(center=(344, 27))
+    tela.blit(imagem_texto, posicao)

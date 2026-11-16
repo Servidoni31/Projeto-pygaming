@@ -1,10 +1,11 @@
 import pygame
-from interface import desenhar_barra_vida
+from interface import desenhar_barra_vida, desenhar_cronometro
 
 LARGURA, ALTURA = 688, 272
 ESCALA = 2
 
 pygame.init()
+fonte_cronometro = pygame.font.Font(None, 36)
 janela = pygame.display.set_mode((LARGURA * ESCALA, ALTURA * ESCALA))
 pygame.display.set_caption("Nome do Jogo")
 relogio = pygame.time.Clock()
@@ -34,6 +35,7 @@ while rodando:
     
     desenhar_barra_vida(tela, 20, 15, 100)
     desenhar_barra_vida(tela, 418, 15, 100, espelhada=True)
+    desenhar_cronometro(tela, fonte_cronometro, tempo_restante)
 
     janela.blit(pygame.transform.scale(tela, janela.get_size()), (0, 0))
     pygame.display.flip()
