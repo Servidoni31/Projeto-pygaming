@@ -15,3 +15,4 @@ mostrar que as decisões foram discutidas pelo grupo.
 
 Cada integrante commita os próprios rascunhos, da própria conta do Git. O
 histórico de quem commitou o quê é o que o professor olha.
+![alt text](<WhatsApp Image 2026-11-15 at 23.44.48.jpeg>)  # design inicial para barra de vida
