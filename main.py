@@ -29,6 +29,7 @@ while rodando:
 
     tela.blit(cenario, (0, 0))
     desenhar_barra_vida(tela, 20, 15, 80)
+    desenhar_barra_vida(tela, 418, 15, 80, espelhada=True)
 
     janela.blit(pygame.transform.scale(tela, janela.get_size()), (0, 0))
     pygame.display.flip()
