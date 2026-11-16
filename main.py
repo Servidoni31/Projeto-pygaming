@@ -1,4 +1,5 @@
 import pygame
+from interface import desenhar_barra_vida
 
 LARGURA, ALTURA = 688, 272
 ESCALA = 2
@@ -24,8 +25,14 @@ while rodando:
 
     # --- o resto do jogo entra aqui ---
 
+    tela.fill((20, 20, 30))
+
+    tela.blit(cenario, (0, 0))
+    desenhar_barra_vida(tela, 20, 15, 80)
+
     janela.blit(pygame.transform.scale(tela, janela.get_size()), (0, 0))
     pygame.display.flip()
     relogio.tick(60)
 
 pygame.quit()
+
