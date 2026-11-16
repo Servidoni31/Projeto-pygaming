@@ -2,9 +2,6 @@
 import pygame
 
 # feito com CoPilot
-import pygame
-
-# feito com CoPilot
 def desenhar_barra_vida(tela, x, y, vida, espelhada=False):
     pontos = [
         (x,       y + 16),
@@ -28,4 +25,18 @@ def desenhar_barra_vida(tela, x, y, vida, espelhada=False):
 
         pontos = pontos_espelhados
 
+    pygame.draw.polygon(tela, (30, 25, 45), pontos)
+
+    largura = round(250 * max(0, min(vida, 100)) / 100)
+
+    if espelhada:
+        inicio_x = x + 250 - largura
+    else:
+        inicio_x = x
+
+    recorte_anterior = tela.get_clip()
+    tela.set_clip((inicio_x, y, largura, 25))
+
     pygame.draw.polygon(tela, (40, 220, 210), pontos)
+
+    tela.set_clip(recorte_anterior)
