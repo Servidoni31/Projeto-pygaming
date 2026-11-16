@@ -13,6 +13,7 @@ tela = pygame.Surface((LARGURA, ALTURA))
 
 cenario = pygame.image.load("assets/cenario/cenario2.png").convert_alpha()
 
+inicio_round = pygame.time.get_ticks()
 rodando = True
 while rodando:
     for evento in pygame.event.get():
@@ -22,18 +23,22 @@ while rodando:
     tela.fill((20, 20, 30))
 
     tela.blit(cenario, (0, 0))
+    agora = pygame.time.get_ticks()
+    tempo_passado = (agora - inicio_round) // 1000   
+    tempo_restante = 60 - tempo_passado
+    if tempo_restante < 0:
+        tempo_restante = 0
 
     # --- o resto do jogo entra aqui ---
 
-    tela.fill((20, 20, 30))
-
-    tela.blit(cenario, (0, 0))
+    
     desenhar_barra_vida(tela, 20, 15, 100)
     desenhar_barra_vida(tela, 418, 15, 100, espelhada=True)
 
     janela.blit(pygame.transform.scale(tela, janela.get_size()), (0, 0))
     pygame.display.flip()
     relogio.tick(60)
+
 
 pygame.quit()
 
