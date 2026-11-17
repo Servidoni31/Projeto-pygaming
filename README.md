@@ -1,4 +1,4 @@
-# [TÍTULO DO JOGO]
+# Insper Fighter
 
 Jogo de luta 1 contra 1, local, para dois jogadores no mesmo teclado.
 Projeto final de Design de Software — Insper, 2026/2.
@@ -7,7 +7,7 @@ Projeto final de Design de Software — Insper, 2026/2.
 
 - João Pedro Servidoni — [Servidoni31](https://github.com/Servidoni31)
 - João Damiani — [joaofldamiani](https://github.com/joaofldamiani)
-- Guilherme Treves — [usuário do GitHub]
+- Guilherme Treves — [Treves05](https://github.com/Treves05)
 
 ## Vídeo
 
@@ -47,8 +47,9 @@ quem tiver mais vida.
 
 ## Créditos dos assets
 
-Todos os assets usados estão em domínio público (CC0), sem obrigação de
-atribuição. O crédito abaixo é por transparência.
+A arte e as trilhas são de uso livre e não exigem atribuição; o crédito
+abaixo é por transparência. A fonte do cronômetro é a exceção: a licença
+OFL pede que o crédito e o texto da licença acompanhem o projeto.
 
 - **Cenário 1 e trilha sonora** — "Cyberpunk Street Environment", por
   Luis Zuno (ansimuz) — CC0
@@ -62,6 +63,11 @@ atribuição. O crédito abaixo é por transparência.
   (ansimuz). Uso pessoal e comercial, modificação e redistribuição
   permitidas; crédito não obrigatório.
   https://ansimuz.itch.io/
+
+- **Fonte do cronômetro** — "Press Start 2P", por CodeMan38 (The Press
+  Start 2P Project Authors). Licença SIL Open Font License 1.1; o texto da
+  licença está em `assets/fontes/OFL.txt`.
+  https://fonts.google.com/specimen/Press+Start+2P
 
 O cenário 2 foi montado a partir da imagem de divulgação do pacote, que
 vinha com dois lutadores desenhados nela; a região foi coberta com uma

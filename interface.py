@@ -41,10 +41,17 @@ def desenhar_barra_vida(tela, x, y, vida, espelhada=False):
 
     tela.set_clip(recorte_anterior)
 
+    # borda por cima de tudo, desenhada depois do preenchimento:
+    # contorno escuro grosso que separa a barra do cenario,
+    # e um filete dourado por cima, que continua visivel com a barra vazia
+    pygame.draw.polygon(tela, (12, 10, 24), pontos, 4)
+    pygame.draw.polygon(tela, (255, 207, 92), pontos, 1)
+
 # feito com CoPilot
 def desenhar_cronometro(tela, fonte, tempo_restante):
     numero = str(tempo_restante)
-    imagem_texto = fonte.render(numero, True, (255, 255, 255))
+    # antialias False: fonte pixelada fica nitida, sem borrar
+    imagem_texto = fonte.render(numero, False, (255, 255, 255))
     posicao = imagem_texto.get_rect(center=(344, 27))
     tela.blit(imagem_texto, posicao)
 
