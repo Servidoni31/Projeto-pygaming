@@ -47,3 +47,9 @@ def desenhar_cronometro(tela, fonte, tempo_restante):
     imagem_texto = fonte.render(numero, True, (255, 255, 255))
     posicao = imagem_texto.get_rect(center=(344, 27))
     tela.blit(imagem_texto, posicao)
+
+# feito com CoPilot
+def iniciar_musica():
+    pygame.mixer.music.load("assets/som/trilha.ogg")
+    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.play(-1)
