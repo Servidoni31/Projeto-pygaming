@@ -6,6 +6,7 @@ ESCALA = 2
 TEMPO_ROUND = 99    # segundos de cada round; ajustar depois de testar o dano
 
 pygame.init()
+iniciar_musica()
 fonte_cronometro = pygame.font.Font("assets/fontes/PressStart2P-Regular.ttf", 16)
 janela = pygame.display.set_mode((LARGURA * ESCALA, ALTURA * ESCALA))
 pygame.display.set_caption("Insper Fighter")
