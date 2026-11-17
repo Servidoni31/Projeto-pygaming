@@ -1,4 +1,5 @@
 # CONFIGURAÇÕES
+import pygame
 
 LARGURA = 1280
 ALTURA = 720
