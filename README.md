@@ -30,6 +30,15 @@ mesmo. Em Python 3.12 ou anterior, `pip install pygame` também funciona.
 
 Testado em Python 3.14.6 com pygame-ce 2.5.8.
 
+## Como jogar
+
+Na tela inicial, **Enter** começa. O jogador 1 escolhe o lutador, depois o
+jogador 2, e depois a arena (setas para escolher, **Enter** para confirmar,
+**Esc** para voltar). A luta começa com o "FIGHT!"; quando alguém é
+nocauteado ou o tempo acaba, aparece a tela de vitória: **Enter** para
+revanche, **C** para escolher de novo, **Esc** para voltar ao início. **Esc**
+no meio da luta também volta ao início.
+
 ## Controles
 
 | Ação | Jogador 1 | Jogador 2 |
@@ -89,10 +98,6 @@ ninja e da Ilusionista (CC-BY-SA 3.0), que exigem atribuição.
   Start 2P Project Authors). Licença SIL Open Font License 1.1; o texto da
   licença está em `assets/fontes/OFL.txt`.
   https://fonts.google.com/specimen/Press+Start+2P
-
-- **Efeito sonoro de soco** — arquivo `assets/som/punch.ogg`, do pacote
-  "Rpg Sound Effect Pack", por Delta12 Studio — CC0.
-  https://opengameart.org/content/rpg-sound-effect-pack
 
 - **Sons de golpe** (`assets/som/efeitos/`, menos `golpe_forte2.ogg`) —
   "37 hits/punches", por Independent.nu — CC0

@@ -52,30 +52,43 @@ def desenhar_inicio(tela, fonte):
 
 
 def desenhar_fight(tela, fonte):
-    desenhar_texto(tela, fonte, "FIGHT!", 344, 136, BRANCO)
+    desenhar_texto(tela, fonte, "FIGHT!", 344, 120, AMARELO, 5)
 
 
 def desenhar_ko(tela, fonte):
-    desenhar_texto(tela, fonte, "K.O.", 344, 136, BRANCO)
+    desenhar_texto(tela, fonte, "K.O.", 344, 120, AMARELO, 6)
 
 
-def desenhar_selecao_personagem(tela, fonte, nomes, imagens, selecionado, jogador):
+def desenhar_tempo(tela, fonte):
+    desenhar_texto(tela, fonte, "TEMPO!", 344, 120, AMARELO, 5)
+
+
+def desenhar_selecao_personagem(tela, fonte, nomes, imagens, selecionado, jogador,
+                                escolha_j1=None):
     desenhar_fundo(tela)
-    desenhar_texto(tela, fonte, "ESCOLHA SEU LUTADOR", 344, 34, BRANCO, 2)
-    desenhar_texto(tela, fonte, "JOGADOR " + str(jogador), 344, 58, AZUL)
+    desenhar_texto(tela, fonte, "ESCOLHA SEU LUTADOR", 344, 26, BRANCO, 2)
+    desenhar_texto(tela, fonte, "JOGADOR " + str(jogador), 344, 50, AZUL)
 
+    # cartas em grade: 3 por linha (cabem os 6 personagens em 2 linhas)
     for i in range(len(nomes)):
-        x = 114 + i * 240
+        coluna = i % 3
+        linha = i // 3
+        x = 32 + coluna * 212
+        y = 62 + linha * 76
         cor = CINZA
 
         if i == selecionado:
             cor = AMARELO
 
-        pygame.draw.rect(tela, (28, 30, 52), (x, 74, 220, 136))
-        pygame.draw.rect(tela, cor, (x, 74, 220, 136), 2)
-        posicao = imagens[i].get_rect(midbottom=(x + 110, 186))
+        pygame.draw.rect(tela, (28, 30, 52), (x, y, 200, 70))
+        pygame.draw.rect(tela, cor, (x, y, 200, 70), 2)
+        posicao = imagens[i].get_rect(midbottom=(x + 44, y + 66))
         tela.blit(imagens[i], posicao)
-        desenhar_texto(tela, fonte, nomes[i], x + 110, 196, cor)
+        desenhar_texto(tela, fonte, nomes[i], x + 134, y + 35, cor)
+
+        # na vez do jogador 2, marca quem o jogador 1 ja escolheu
+        if escolha_j1 == i:
+            desenhar_texto(tela, fonte, "J1", x + 184, y + 12, AZUL)
 
     desenhar_texto(tela, fonte, "SETAS: ESCOLHER   ENTER: CONFIRMAR   ESC: VOLTAR",
                    344, 239, BRANCO)
@@ -86,17 +99,18 @@ def desenhar_selecao_cenario(tela, fonte, nomes, miniaturas, selecionado):
     desenhar_texto(tela, fonte, "ESCOLHA A ARENA", 344, 34, BRANCO, 2)
     desenhar_texto(tela, fonte, "ONDE VAI SER A DISPUTA?", 344, 58, AZUL)
 
+    # 3 arenas lado a lado; as miniaturas tem 196x77
     for i in range(len(nomes)):
-        x = 48 + i * 304
+        x = 26 + i * 214
         cor = CINZA
 
         if i == selecionado:
             cor = AMARELO
 
-        pygame.draw.rect(tela, (28, 30, 52), (x, 78, 288, 130))
+        pygame.draw.rect(tela, (28, 30, 52), (x, 78, 208, 112))
         tela.blit(miniaturas[i], (x + 6, 84))
-        pygame.draw.rect(tela, cor, (x, 78, 288, 130), 2)
-        desenhar_texto(tela, fonte, nomes[i], x + 144, 197, cor)
+        pygame.draw.rect(tela, cor, (x, 78, 208, 112), 2)
+        desenhar_texto(tela, fonte, nomes[i], x + 104, 177, cor)
 
     desenhar_texto(tela, fonte, "SETAS: ESCOLHER   ENTER: CONFIRMAR   ESC: VOLTAR", 344, 239, BRANCO)
 
