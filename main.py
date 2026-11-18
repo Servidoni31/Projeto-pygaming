@@ -1,6 +1,9 @@
 import pygame
-from interface import desenhar_barra_vida, desenhar_cronometro, iniciar_musica
-from lutador import Lutador, GOLPES_BRAWLER_GIRL, GOLPES_ENEMY_PUNK, atualizar_luta
+from interface import (desenhar_barra_vida, desenhar_cronometro, iniciar_musica,
+                       carregar_som_soco)
+from lutador import atualizar_luta, criar_lutador
+from personagens import PERSONAGENS
+from sons import carregar_sons, tocar_efeito, tocar_vozes, atualizar_vozes
 
 LARGURA, ALTURA = 688, 272
 ESCALA = 2
