@@ -45,8 +45,19 @@ no meio da luta também volta ao início.
 |---|---|---|
 | Andar | A / D | ← / → |
 | Pular | W | ↑ |
+| Defender (segurar) | S | ↓ |
+| Dash (toque duplo) | A A / D D | ← ← / → → |
 | Golpe 1 | E | Shift direito |
 | Golpe 2 | Q | ; / : (a tecla ao lado do ponto) |
+
+Defendendo, o lutador fica parado com um escudo neon na frente e leva só 40%
+do dano dos golpes, sem cambalear. Não dá para andar nem golpear na guarda,
+e no ar não dá para defender.
+
+O dash (apertar duas vezes rápido para um lado) joga o lutador uns 70 px
+para aquele lado, e durante ele nenhum golpe pega. Funciona até apanhando:
+é o jeito de sair de um combo. Depois de um dash, só dá para dar outro
+1,2 s depois.
 
 ## Personagens
 

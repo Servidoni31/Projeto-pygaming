@@ -23,12 +23,22 @@ GRAVIDADE = 0.5             # quanto a velocidade para cima diminui a cada quadr
 # com esses numeros o pulo sobe 10 + 9,5 + 9 + ... = uns 105 px e dura uns 40
 # quadros (0,7 s): da para passar por cima de um soco
 
+DANO_NA_DEFESA = 40         # quem defende leva so 40% do dano do golpe
+DURACAO_FAISCA = 150        # ms que a faisca do bloqueio fica na tela
+
+# dash: toque duplo para um lado. Serve para fugir de combo: funciona ate
+# apanhando, e durante o dash nenhum golpe pega
+TOQUE_DUPLO = 250           # ms maximo entre os dois toques
+QUADROS_DASH = 10           # quanto dura o dash (quadros)
+VELOCIDADE_DASH = 7         # px por quadro: 10 x 7 = 70 px
+RECARGA_DASH = 1200         # ms ate poder dar outro dash
+
 # milissegundos que cada quadro fica na tela, por estado; golpe usa o padrao
 TEMPO_QUADRO = {"parado": 110, "andando": 90, "apanhando": 110, "pulando": 120}
 TEMPO_QUADRO_GOLPE = 70
 
 # estados que repetem em loop; os outros tocam uma vez e acabam
-ESTADOS_EM_LOOP = ["parado", "andando", "derrotado"]
+ESTADOS_EM_LOOP = ["parado", "andando", "derrotado", "defendendo", "dash"]
 
 
 def tecla_apertada(teclas, tecla):
@@ -85,6 +95,17 @@ class Lutador:
             self.animacoes["pulando"] = carregar_folha(pasta + "/jump.png", escala)
         else:
             self.animacoes["pulando"] = [self.animacoes["parado"][0]]
+        # defesa: nenhum pacote tem desenho de guarda; fica no 1o quadro do
+        # parado e o escudo neon e desenhado por cima (ver desenhar)
+        self.animacoes["defendendo"] = [self.animacoes["parado"][0]]
+        self.ultimo_bloqueio = -10000   # quando bloqueou um golpe (para a faisca)
+        # dash: usa os quadros do andar (com um rastro desenhado atras)
+        self.animacoes["dash"] = self.animacoes["andando"]
+        self.quadros_dash = 0           # quantos quadros de dash ainda faltam
+        self.direcao_dash = 1           # 1 = para a direita, -1 = para a esquerda
+        self.ultimo_dash = -10000       # quando deu o ultimo dash (para a recarga)
+        self.ultimo_toque = {"esquerda": -10000, "direita": -10000}
+        self.lados_segurados = []       # setas seguradas no quadro anterior
         for nome in golpes:
             self.animacoes[nome] = carregar_folha(pasta + "/" + golpes[nome]["arquivo"],
                                                   escala)
@@ -132,10 +153,12 @@ class Lutador:
             self.ultima_troca = pygame.time.get_ticks()
 
     def ocupado(self):
-        """Enquanto golpeia, apanha ou esta no chao, nao anda nem golpeia."""
+        """Enquanto golpeia, apanha, defende ou esta caido, nao anda nem golpeia."""
         return (self.estado in self.golpes
                 or self.estado == "apanhando"
-                or self.estado == "derrotado")
+                or self.estado == "derrotado"
+                or self.estado == "defendendo"
+                or self.estado == "dash")
 
     # ------------------------------------------------------------ caixas
     def pes(self):
@@ -162,6 +185,45 @@ class Lutador:
     # ------------------------------------------------------------ a cada quadro
     def atualizar(self, teclas, outro):
         """Le as teclas, golpeia ou anda, avanca a animacao e confere acerto."""
+        # 0a) dash: toque duplo para um lado (apertou, soltou, apertou de novo
+        #     em menos de TOQUE_DUPLO ms). Vale parado, andando, defendendo e
+        #     ate apanhando (e o jeito de fugir de combo); no ar e caido, nao
+        agora = pygame.time.get_ticks()
+        for lado in ["esquerda", "direita"]:
+            apertada = teclas[self.teclas[lado]]
+            if apertada and lado not in self.lados_segurados:      # toque novo
+                pode = (self.altura == 0
+                        and self.estado in ["parado", "andando", "defendendo", "apanhando"]
+                        and agora - self.ultimo_dash > RECARGA_DASH)
+                if pode and agora - self.ultimo_toque[lado] < TOQUE_DUPLO:
+                    self.direcao_dash = 1
+                    if lado == "esquerda":
+                        self.direcao_dash = -1
+                    self.quadros_dash = QUADROS_DASH
+                    self.ultimo_dash = agora
+                    self.mudar_estado("dash")
+                self.ultimo_toque[lado] = agora
+        self.lados_segurados = []
+        for lado in ["esquerda", "direita"]:
+            if teclas[self.teclas[lado]]:
+                self.lados_segurados.append(lado)
+
+        if self.estado == "dash":
+            self.x += VELOCIDADE_DASH * self.direcao_dash
+            self.quadros_dash -= 1
+            if self.quadros_dash <= 0:
+                self.mudar_estado("parado")
+
+        # 0b) defesa: enquanto segura "baixo" no chao, fica na guarda (nao anda
+        #    nem golpeia); soltou, volta a ficar parado
+        tecla_baixo = self.teclas.get("baixo")
+        quer_defender = (tecla_baixo is not None and teclas[tecla_baixo]
+                         and self.altura == 0)
+        if self.estado == "defendendo" and not quer_defender:
+            self.mudar_estado("parado")
+        elif quer_defender and not self.ocupado():
+            self.mudar_estado("defendendo")
+
         # 1) golpe novo: so quando a tecla acabou de ser apertada (estava solta
         #    no quadro anterior); segurar a tecla nao repete o golpe
         #    (golpe sem tecla definida e ignorado, em vez de travar o jogo)
@@ -267,21 +329,35 @@ class Lutador:
         return False
 
     def levar_golpe(self, dano, x_atacante):
-        """Perde vida, e jogado para tras e toca a animacao de apanhar."""
-        if self.estado == "derrotado":
-            return
+        """Perde vida, e jogado para tras e toca a animacao de apanhar.
+
+        Se estiver defendendo, leva so DANO_NA_DEFESA % do dano, e empurrado
+        a metade e continua na guarda (nao cambaleia). No meio de um dash,
+        o golpe nao pega. Devolve "acertou", "bloqueou" ou "desviou".
+        """
+        if self.estado == "derrotado" or self.estado == "dash":
+            return "desviou"
+        bloqueou = self.estado == "defendendo"
+        empurrao = EMPURRAO
+        if bloqueou:
+            dano = dano * DANO_NA_DEFESA // 100
+            empurrao = EMPURRAO // 2
+            self.ultimo_bloqueio = pygame.time.get_ticks()
         self.vida -= dano
         if self.vida < 0:
             self.vida = 0
         if x_atacante < self.x:
-            self.x += EMPURRAO
+            self.x += empurrao
         else:
-            self.x -= EMPURRAO
+            self.x -= empurrao
         self.prender_nas_paredes()
+        if bloqueou:
+            return "bloqueou"
         # recomeca a animacao mesmo se ja estava apanhando
         self.estado = "apanhando"
         self.quadro = 0
         self.ultima_troca = pygame.time.get_ticks()
+        return "acertou"
 
     def prender_nas_paredes(self):
         """Paredes invisiveis: puxa de volta se passou do limite."""
@@ -308,7 +384,37 @@ class Lutador:
 
         canto_x = self.x - QUADRO_L // 2
         canto_y = self.pes() - QUADRO_A     # a sombra fica no chao, o corpo sobe
+
+        # dash: duas copias meio transparentes atras, como um rastro
+        if self.estado == "dash":
+            for passo, transparencia in [(2, 60), (1, 120)]:
+                rastro = imagem.copy()
+                rastro.set_alpha(transparencia)
+                atras = canto_x - self.direcao_dash * VELOCIDADE_DASH * 2 * passo
+                tela.blit(rastro, (atras, canto_y))
+
         tela.blit(imagem, (canto_x, canto_y))
+
+        # defendendo: um escudo neon na frente do corpo; quando acabou de
+        # bloquear um golpe, ele pisca mais forte e mais largo (a "faisca")
+        if self.estado == "defendendo":
+            frente = 30
+            if not self.olhando_direita:
+                frente = -30
+            x = self.x + frente
+            topo = self.pes() - 84
+            cor = (40, 226, 214)
+            largura = 2
+            if pygame.time.get_ticks() - self.ultimo_bloqueio < DURACAO_FAISCA:
+                cor = (255, 255, 255)
+                largura = 4
+            pygame.draw.line(tela, cor, (x, topo), (x, topo + 64), largura)
+            # pontas do escudo, viradas para o lado do corpo
+            volta = -6
+            if not self.olhando_direita:
+                volta = 6
+            pygame.draw.line(tela, cor, (x, topo), (x + volta, topo - 6), largura)
+            pygame.draw.line(tela, cor, (x, topo + 64), (x + volta, topo + 70), largura)
 
     def desenhar_caixas(self, tela):
         """Mostra as caixas de colisao (para testar e ajustar; tecla TAB)."""
@@ -330,20 +436,31 @@ def atualizar_luta(j1, j2, teclas):
     apanham.
 
     Devolve a lista dos sons dos golpes que acertaram neste quadro (ex.:
-    ["medio"]), para o main tocar. Lista vazia: ninguem acertou.
+    ["medio"]), para o main tocar. Lista vazia: ninguem acertou. Golpe
+    bloqueado toca o som "fraco".
     """
     dano1 = j1.atualizar(teclas, j2)
     dano2 = j2.atualizar(teclas, j1)
     # pega o som ANTES de aplicar o dano: depois o estado vira "apanhando"
+    som1 = None
+    som2 = None
+    if dano1 > 0:
+        som1 = j1.golpes[j1.estado]["som"]
+    if dano2 > 0:
+        som2 = j2.golpes[j2.estado]["som"]
     sons = []
     if dano1 > 0:
-        sons.append(j1.golpes[j1.estado]["som"])
+        resultado = j2.levar_golpe(dano1, j1.x)
+        if resultado == "bloqueou":
+            sons.append("fraco")
+        elif resultado == "acertou":
+            sons.append(som1)
     if dano2 > 0:
-        sons.append(j2.golpes[j2.estado]["som"])
-    if dano1 > 0:
-        j2.levar_golpe(dano1, j1.x)
-    if dano2 > 0:
-        j1.levar_golpe(dano2, j2.x)
+        resultado = j1.levar_golpe(dano2, j2.x)
+        if resultado == "bloqueou":
+            sons.append("fraco")
+        elif resultado == "acertou":
+            sons.append(som2)
     j1.virar_para(j2)
     j2.virar_para(j1)
     return sons
