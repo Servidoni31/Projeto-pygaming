@@ -25,13 +25,13 @@ pygame.display.set_caption("Insper Fighter")
 relogio = pygame.time.Clock()
 tela = pygame.Surface((LARGURA, ALTURA))
 
-# jogador 1: A/D anda, W pula, E ou F golpe 1, Q ou G golpe 2
+# jogador 1: A/D anda, W pula, E golpe 1, Q ou G golpe 2
 TECLAS_J1 = {"esquerda": pygame.K_a, "direita": pygame.K_d, "cima": pygame.K_w,
-             "golpe1": [pygame.K_e, pygame.K_f], "golpe2": [pygame.K_q, pygame.K_g]}
-# jogador 2: setas andam, seta para cima pula, Shift direito ou virgula golpe 1,
+             "golpe1": pygame.K_e, "golpe2": [pygame.K_q, pygame.K_g]}
+# jogador 2: setas andam, seta para cima pula, Shift direito golpe 1,
 # ponto e virgula/dois pontos (a mesma tecla, ao lado do ponto) ou ponto golpe 2
 TECLAS_J2 = {"esquerda": pygame.K_LEFT, "direita": pygame.K_RIGHT, "cima": pygame.K_UP,
-             "golpe1": [pygame.K_RSHIFT, pygame.K_COMMA],
+             "golpe1": pygame.K_RSHIFT,
              "golpe2": [pygame.K_SEMICOLON, pygame.K_COLON, pygame.K_PERIOD]}
 
 
