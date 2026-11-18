@@ -1,8 +1,16 @@
+import os
 import pygame
 
-ESCALA = 2
-QUADRO_L = 96 * ESCALA      # largura de um quadro da folha, ja ampliado (192)
-QUADRO_A = 63 * ESCALA      # altura de um quadro da folha, ja ampliado (126)
+# os golpes e os dados de cada personagem ficam em personagens.py; os dois
+# primeiros sao importados aqui tambem para o codigo antigo continuar
+# funcionando (from lutador import GOLPES_BRAWLER_GIRL, ...)
+from personagens import GOLPES_BRAWLER_GIRL, GOLPES_ENEMY_PUNK  # noqa: F401
+
+ESCALA = 2                  # escala padrao (personagens do Streets of Fight)
+QUADRO_L = 192              # largura de um quadro na tela, ja ampliado
+QUADRO_A = 126              # altura de um quadro na tela, ja ampliado
+# na folha, o quadro tem QUADRO_L / escala de largura: 96x63 nos de escala 2
+# e 64x42 nos de escala 3 (agente e renegade, que sao desenhados menores)
 
 VELOCIDADE = 3              # pixels por quadro; a 60 quadros/s da 180 px/s
 MEIO_CORPO = 24             # metade da largura do corpo (12 px x 2)
@@ -18,39 +26,17 @@ TEMPO_QUADRO_GOLPE = 70
 # estados que repetem em loop; os outros tocam uma vez e acabam
 ESTADOS_EM_LOOP = ["parado", "andando", "derrotado"]
 
-# golpes de cada personagem. "alcance" e quanto o golpe chega a frente do
-# centro do corpo (medido nos quadros da folha, x2); "quadro_ativo" e o
-# quadro da animacao em que o braco ou a perna esta esticado e pode acertar
-GOLPES_BRAWLER_GIRL = {
-    # soco: o de maior alcance do jogo, mas fraco (uma "cutucada"); de perto,
-    # empata em tempo com o soco do punk e os dois se acertam
-    "soco":  {"arquivo": "punch.png", "dano": 5,  "alcance": 78, "quadro_ativo": 1,
-              "tempo": 120},
-    "chute": {"arquivo": "kick.png",  "dano": 12, "alcance": 66, "quadro_ativo": 3},
-}
-# o enemy-punk so tem a animacao de soco no pacote (nao existe chute nem no
-# arquivo .ase original). Para ele ter dois golpes como a lutadora, o segundo
-# e um "soco forte": a mesma animacao, mais lenta ("tempo" por quadro), com uma
-# investida para a frente ate o quadro do acerto. Bate mais e chega mais longe,
-# mas e lento: da tempo de o outro recuar.
-GOLPES_ENEMY_PUNK = {
-    "soco":       {"arquivo": "punch.png", "dano": 10, "alcance": 68, "quadro_ativo": 2,
-                   "tempo": 55},
-    "soco_forte": {"arquivo": "punch.png", "dano": 14, "alcance": 76, "quadro_ativo": 2,
-                   "tempo": 130, "investida": 2},
-}
 
-
-def carregar_folha(caminho):
+def carregar_folha(caminho, escala=ESCALA):
     """Carrega uma folha de sprites e devolve a lista dos quadros, ja ampliados.
 
-    Toda folha do pacote tem quadros de 96x63 lado a lado, entao o numero de
-    quadros e a largura da folha dividida por 96.
+    Os quadros ficam lado a lado na folha, cada um com QUADRO_L / escala de
+    largura; o numero de quadros e a largura da folha dividida por isso.
     """
     folha = pygame.image.load(caminho).convert_alpha()
-    n_quadros = folha.get_width() // 96
+    n_quadros = folha.get_width() // (QUADRO_L // escala)
     folha = pygame.transform.scale(
-        folha, (folha.get_width() * ESCALA, folha.get_height() * ESCALA)
+        folha, (folha.get_width() * escala, folha.get_height() * escala)
     )
     quadros = []
     for i in range(n_quadros):
@@ -62,25 +48,44 @@ def carregar_folha(caminho):
 class Lutador:
     """Um lutador: posicao, vida, teclas, golpes, animacao e desenho."""
 
-    def __init__(self, pasta, x, chao, teclas, golpes, desenho_olha_direita=True):
+    def __init__(self, pasta, x, chao, teclas, golpes, desenho_olha_direita=True,
+                 escala=ESCALA):
         # cada estado tem a sua lista de quadros
-        apanhando = carregar_folha(pasta + "/hurt.png")
+        apanhando = carregar_folha(pasta + "/hurt.png", escala)
         self.animacoes = {
-            "parado": carregar_folha(pasta + "/idle.png"),
-            "andando": carregar_folha(pasta + "/walk.png"),
+            "parado": carregar_folha(pasta + "/idle.png", escala),
+            "andando": carregar_folha(pasta + "/walk.png", escala),
             "apanhando": apanhando,
-            "derrotado": [apanhando[-1]],   # fica parado no ultimo quadro
         }
+        # caido: usa o ko.png se o personagem tiver; senao, fica parado no
+        # ultimo quadro do "apanhando"
+        if os.path.exists(pasta + "/ko.png"):
+            self.animacoes["derrotado"] = carregar_folha(pasta + "/ko.png", escala)
+        else:
+            self.animacoes["derrotado"] = [apanhando[-1]]
         for nome in golpes:
-            self.animacoes[nome] = carregar_folha(pasta + "/" + golpes[nome]["arquivo"])
+            self.animacoes[nome] = carregar_folha(pasta + "/" + golpes[nome]["arquivo"],
+                                                  escala)
         self.golpes = golpes
+        # o 1o golpe do personagem usa a tecla "golpe1", o 2o usa "golpe2";
+        # assim as mesmas teclas servem para qualquer personagem. Se o
+        # dicionario de teclas usar o nome do golpe ("soco", "chute"), como no
+        # codigo antigo, tambem funciona
+        self.tecla_do_golpe = {}
+        numero = 1
+        for nome in golpes:
+            tecla = teclas.get("golpe" + str(numero))
+            if tecla is None:
+                tecla = teclas.get(nome)
+            self.tecla_do_golpe[nome] = tecla
+            numero += 1
 
         sombra = pygame.image.load("assets/sprites/shadow.png").convert_alpha()
         self.sombra = pygame.transform.scale(sombra, (20 * ESCALA, 8 * ESCALA))
 
         self.x = x                  # centro do corpo (nao o canto do quadro)
         self.chao = chao            # altura dos pes
-        self.teclas = teclas        # {"esquerda": .., "direita": .., "soco": .., ...}
+        self.teclas = teclas        # {"esquerda", "direita", "golpe1", "golpe2"}
         self.vida = 100
 
         self.estado = "parado"
@@ -131,7 +136,7 @@ class Lutador:
         #    (golpe sem tecla definida e ignorado, em vez de travar o jogo)
         if not self.ocupado():
             for nome in self.golpes:
-                tecla = self.teclas.get(nome)
+                tecla = self.tecla_do_golpe[nome]
                 if tecla is None:
                     continue
                 if teclas[tecla] and nome not in self.golpes_segurados:
@@ -141,7 +146,7 @@ class Lutador:
 
         self.golpes_segurados = []
         for nome in self.golpes:
-            tecla = self.teclas.get(nome)
+            tecla = self.tecla_do_golpe[nome]
             if tecla is not None and teclas[tecla]:
                 self.golpes_segurados.append(nome)
 
@@ -275,12 +280,28 @@ def atualizar_luta(j1, j2, teclas):
     dele e o golpe dele sumiria: num empate, o jogador 1 sempre ganharia so por
     ser atualizado primeiro. Assim, se os dois acertam no mesmo quadro, os dois
     apanham.
+
+    Devolve a lista dos sons dos golpes que acertaram neste quadro (ex.:
+    ["medio"]), para o main tocar. Lista vazia: ninguem acertou.
     """
     dano1 = j1.atualizar(teclas, j2)
     dano2 = j2.atualizar(teclas, j1)
+    # pega o som ANTES de aplicar o dano: depois o estado vira "apanhando"
+    sons = []
+    if dano1 > 0:
+        sons.append(j1.golpes[j1.estado]["som"])
+    if dano2 > 0:
+        sons.append(j2.golpes[j2.estado]["som"])
     if dano1 > 0:
         j2.levar_golpe(dano1, j1.x)
     if dano2 > 0:
         j1.levar_golpe(dano2, j2.x)
     j1.virar_para(j2)
     j2.virar_para(j1)
+    return sons
+
+
+def criar_lutador(personagem, x, chao, teclas):
+    """Cria o Lutador de um dos personagens da lista PERSONAGENS."""
+    return Lutador(personagem["pasta"], x, chao, teclas, personagem["golpes"],
+                   personagem["olha_direita"], personagem["escala"])
