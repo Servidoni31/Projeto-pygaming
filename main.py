@@ -1,5 +1,5 @@
 import pygame
-from interface import desenhar_barra_vida, desenhar_cronometro, iniciar_musica
+from interface import desenhar_barra_vida, desenhar_cronometro, iniciar_musica, carregar_som_soco
 from lutador import Lutador, GOLPES_BRAWLER_GIRL, GOLPES_ENEMY_PUNK, atualizar_luta
 
 LARGURA, ALTURA = 688, 272
@@ -7,6 +7,7 @@ ESCALA = 2
 TEMPO_ROUND = 99    # segundos de cada round; ajustar depois de testar o dano
 
 pygame.init()
+som_soco = carregar_som_soco()
 iniciar_musica()
 fonte_cronometro = pygame.font.Font("assets/fontes/PressStart2P-Regular.ttf", 16)
 janela = pygame.display.set_mode((LARGURA * ESCALA, ALTURA * ESCALA))
@@ -39,6 +40,9 @@ while rodando:
             rodando = False
         if evento.type == pygame.KEYDOWN and evento.key == pygame.K_TAB:
             mostrar_caixas = not mostrar_caixas
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_e or evento.key == pygame.K_RSHIFT:
+                som_soco.play()
 
     # teclas seguradas neste quadro (True/False para cada tecla do teclado)
     teclas = pygame.key.get_pressed()

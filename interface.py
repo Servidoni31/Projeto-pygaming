@@ -58,5 +58,11 @@ def desenhar_cronometro(tela, fonte, tempo_restante):
 # feito com CoPilot
 def iniciar_musica():
     pygame.mixer.music.load("assets/som/trilha.ogg")
-    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.set_volume(0.15)
     pygame.mixer.music.play(-1)
+
+
+def carregar_som_soco():
+    som = pygame.mixer.Sound("assets/som/punch.ogg")
+    som.set_volume(1.0)
+    return som
