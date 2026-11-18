@@ -46,7 +46,7 @@ no meio da luta também volta ao início.
 | Andar | A / D | ← / → |
 | Pular | W | ↑ |
 | Golpe 1 | E | Shift direito |
-| Golpe 2 | Q ou G | ; / : (a tecla ao lado do ponto) ou . (ponto) |
+| Golpe 2 | Q | ; / : (a tecla ao lado do ponto) |
 
 ## Personagens
 
