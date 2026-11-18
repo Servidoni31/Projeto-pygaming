@@ -63,6 +63,6 @@ def iniciar_musica():
 
 
 def carregar_som_soco():
-    som = pygame.mixer.Sound("assets/som/punch.ogg")
+    som = pygame.mixer.Sound("assets/som/efeitos/golpe_medio2.ogg")
     som.set_volume(1.0)
     return som
