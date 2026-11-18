@@ -65,7 +65,8 @@ escolha_j2 = 1
 escolha_cenario = 1
 cursor = 0              # carta destacada no menu atual
 vencedor = 0            # 1, 2 ou 0 (empate)
-mostrar_caixas = False  # TAB liga e desliga as caixas de colisao
+mostrar_caixas = False  # F1 liga e desliga as caixas de colisao (era TAB, mas o
+                        # TAB fica do lado do Q e ligava sem querer no meio da luta)
 luta_nova = False       # True: na proxima volta do loop, monta uma luta nova
 
 tocar_musica("assets/som/menu.ogg", 0.3)
@@ -128,7 +129,7 @@ while rodando:
                 cursor = escolha_j2
 
         elif estado == "luta":
-            if tecla == pygame.K_TAB:
+            if tecla == pygame.K_F1:
                 mostrar_caixas = not mostrar_caixas
             elif tecla == pygame.K_ESCAPE:
                 estado = "inicio"

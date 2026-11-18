@@ -77,7 +77,7 @@ O punk não tem animação de chute no pacote de sprites; o segundo golpe dele
 Renegade são de pacotes de 8 bits e foram mantidos com o visual original, de
 propósito.
 
-**TAB** mostra as caixas de colisão (corpo em azul, golpe em vermelho, e em
+**F1** mostra as caixas de colisão (corpo em azul, golpe em vermelho, e em
 dourado no quadro em que o golpe acerta).
 
 ## Objetivo
