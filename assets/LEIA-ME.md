@@ -101,8 +101,5 @@ região foi coberta com uma faixa limpa da própria calçada. A versão sem o
 remendo está em `material-original/streets-of-fight/`.
 
 ## Som
-- **Efeito sonoro de soco** — arquivo `punch.ogg`, do pacote
-  "Rpg Sound Effect Pack", por Delta12 Studio — CC0.
-  https://opengameart.org/content/rpg-sound-effect-pack
 
 `som/trilha.ogg` — PyGame toca `.ogg` nativamente, sem biblioteca extra.

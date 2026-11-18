@@ -74,6 +74,10 @@ OFL pede que o crédito e o texto da licença acompanhem o projeto.
   licença está em `assets/fontes/OFL.txt`.
   https://fonts.google.com/specimen/Press+Start+2P
 
+  - **Efeito sonoro de soco** — arquivo `punch.ogg`, do pacote
+  "Rpg Sound Effect Pack", por Delta12 Studio — CC0.
+  https://opengameart.org/content/rpg-sound-effect-pack
+
 O cenário 2 foi montado a partir da imagem de divulgação do pacote, que
 vinha com dois lutadores desenhados nela; a região foi coberta com uma
 faixa limpa da própria calçada.
