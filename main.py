@@ -3,11 +3,13 @@ from interface import (desenhar_barra_vida, desenhar_cronometro, iniciar_musica,
                        carregar_som_soco)
 from inicio import (desenhar_inicio, desenhar_selecao_personagem,
                     desenhar_selecao_cenario, desenhar_vitoria, desenhar_fight,
-                    desenhar_ko, desenhar_tempo)
-from lutador import atualizar_luta, criar_lutador
+                    desenhar_ko, desenhar_tempo, miniatura_personagem,
+                    imagem_vitoria)
+from lutador import atualizar_luta, criar_lutador, NENHUMA_TECLA
 from personagens import PERSONAGENS
 from cenarios import CENARIOS, carregar_cenario
-from sons import carregar_sons, tocar_efeito, tocar_vozes, atualizar_vozes
+from sons import (carregar_sons, tocar_efeito, tocar_vozes, atualizar_vozes,
+                  tocar_musica)
 
 LARGURA, ALTURA = 688, 272
 ESCALA = 2
@@ -25,37 +27,15 @@ pygame.display.set_caption("Insper Fighter")
 relogio = pygame.time.Clock()
 tela = pygame.Surface((LARGURA, ALTURA))
 
-# jogador 1: A/D anda, F golpe 1, G golpe 2
-TECLAS_J1 = {"esquerda": pygame.K_a, "direita": pygame.K_d,
+# jogador 1: A/D anda, W pula, F golpe 1, G golpe 2
+TECLAS_J1 = {"esquerda": pygame.K_a, "direita": pygame.K_d, "cima": pygame.K_w,
              "golpe1": pygame.K_f, "golpe2": pygame.K_g}
-# jogador 2: setas andam, virgula golpe 1, ponto golpe 2
-TECLAS_J2 = {"esquerda": pygame.K_LEFT, "direita": pygame.K_RIGHT,
+# jogador 2: setas andam, seta para cima pula, virgula golpe 1, ponto golpe 2
+TECLAS_J2 = {"esquerda": pygame.K_LEFT, "direita": pygame.K_RIGHT, "cima": pygame.K_UP,
              "golpe1": pygame.K_COMMA, "golpe2": pygame.K_PERIOD}
 
 
 # ------------------------------------------------------------ imagens dos menus
-def miniatura_personagem(personagem):
-    """Primeiro quadro do 'parado', recortado, no tamanho da carta do menu."""
-    folha = pygame.image.load(personagem["pasta"] + "/idle.png").convert_alpha()
-    largura = 192 // personagem["escala"]
-    quadro = folha.subsurface((0, 0, largura, folha.get_height()))
-    quadro = quadro.subsurface(quadro.get_bounding_rect())
-    fator = personagem["escala"] / 2      # escala 3 fica 1,5x maior
-    return pygame.transform.scale_by(quadro, fator)
-
-
-def imagem_vitoria(personagem):
-    """Primeiro quadro do 'parado' no tamanho da luta (para a tela de vitoria)."""
-    folha = pygame.image.load(personagem["pasta"] + "/idle.png").convert_alpha()
-    largura = 192 // personagem["escala"]
-    quadro = folha.subsurface((0, 0, largura, folha.get_height()))
-    quadro = quadro.subsurface(quadro.get_bounding_rect())
-    imagem = pygame.transform.scale_by(quadro, personagem["escala"])
-    if not personagem["olha_direita"]:
-        imagem = pygame.transform.flip(imagem, True, False)
-    return imagem
-
-
 nomes_personagens = []
 miniaturas = []
 for p in PERSONAGENS:
@@ -65,28 +45,14 @@ for p in PERSONAGENS:
 nomes_cenarios = []
 imagens_cenarios = []
 miniaturas_cenarios = []
+# largura da miniatura: a mesma conta da carta em inicio.py, menos 12
+largura_mini = (640 - 8 * (len(CENARIOS) - 1)) // len(CENARIOS) - 12
+altura_mini = largura_mini * ALTURA // LARGURA
 for i in range(len(CENARIOS)):
     nomes_cenarios.append(CENARIOS[i]["nome"])
     imagem = carregar_cenario(i)
     imagens_cenarios.append(imagem)
-    miniaturas_cenarios.append(pygame.transform.scale(imagem, (196, 77)))
-
-
-class NenhumaTecla:
-    """Faz de conta que nenhuma tecla esta apertada (trava os lutadores
-    durante o "FIGHT!" e depois do K.O.). Funciona como o get_pressed():
-    nenhuma_tecla[pygame.K_a] da False."""
-    def __getitem__(self, tecla):
-        return False
-
-
-NENHUMA_TECLA = NenhumaTecla()
-
-
-def tocar_musica(arquivo, volume):
-    pygame.mixer.music.load(arquivo)
-    pygame.mixer.music.set_volume(volume)
-    pygame.mixer.music.play(-1)
+    miniaturas_cenarios.append(pygame.transform.scale(imagem, (largura_mini, altura_mini)))
 
 
 # ------------------------------------------------------------ estado do jogo
@@ -99,20 +65,7 @@ escolha_cenario = 1
 cursor = 0              # carta destacada no menu atual
 vencedor = 0            # 1, 2 ou 0 (empate)
 mostrar_caixas = False  # TAB liga e desliga as caixas de colisao
-
-
-def comecar_luta():
-    """Cria os lutadores escolhidos e zera o round."""
-    global jogador1, jogador2, inicio_round, fim_round, fim_anunciado
-    chao = CENARIOS[escolha_cenario]["chao"]
-    jogador1 = criar_lutador(PERSONAGENS[escolha_j1], 200, chao, TECLAS_J1)
-    jogador2 = criar_lutador(PERSONAGENS[escolha_j2], 488, chao, TECLAS_J2)
-    inicio_round = pygame.time.get_ticks()
-    fim_round = None            # quando o round acabou (ms), ou None
-    fim_anunciado = False       # o locutor ja falou quem ganhou?
-    iniciar_musica()
-    tocar_vozes(["ready", "fight"])
-
+luta_nova = False       # True: na proxima volta do loop, monta uma luta nova
 
 tocar_musica("assets/som/menu.ogg", 0.3)
 rodando = True
@@ -168,7 +121,7 @@ while rodando:
             elif tecla == pygame.K_RETURN:
                 escolha_cenario = cursor
                 estado = "luta"
-                comecar_luta()
+                luta_nova = True
             elif tecla == pygame.K_ESCAPE:
                 estado = "selecao_j2"
                 cursor = escolha_j2
@@ -185,7 +138,7 @@ while rodando:
         elif estado == "vitoria":
             if tecla == pygame.K_RETURN:          # revanche
                 estado = "luta"
-                comecar_luta()
+                luta_nova = True
             elif tecla == pygame.K_c:             # nova selecao
                 estado = "selecao_j1"
                 cursor = escolha_j1
@@ -220,6 +173,19 @@ while rodando:
 
     # ---------------------------------------------------------- luta
     elif estado == "luta":
+        # comeco de luta (depois da arena ou na revanche): cria os lutadores
+        # escolhidos e zera o round
+        if luta_nova:
+            luta_nova = False
+            chao = CENARIOS[escolha_cenario]["chao"]
+            jogador1 = criar_lutador(PERSONAGENS[escolha_j1], 200, chao, TECLAS_J1)
+            jogador2 = criar_lutador(PERSONAGENS[escolha_j2], 488, chao, TECLAS_J2)
+            inicio_round = agora
+            fim_round = None            # quando o round acabou (ms), ou None
+            fim_anunciado = False       # o locutor ja falou quem ganhou?
+            iniciar_musica()
+            tocar_vozes(["ready", "fight"])
+
         tempo_passado = (agora - inicio_round) // 1000
         tempo_restante = TEMPO_ROUND - tempo_passado
         if tempo_restante < 0:

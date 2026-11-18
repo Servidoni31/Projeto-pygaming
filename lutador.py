@@ -18,9 +18,13 @@ ALTURA_CORPO = 92           # altura do corpo (46 px x 2)
 LIMITE_ESQ = MEIO_CORPO             # parede invisivel da esquerda
 LIMITE_DIR = 688 - MEIO_CORPO       # parede invisivel da direita
 EMPURRAO = 10               # quanto quem apanha e jogado para tras
+FORCA_PULO = 10             # velocidade para cima no inicio do pulo (px por quadro)
+GRAVIDADE = 0.5             # quanto a velocidade para cima diminui a cada quadro
+# com esses numeros o pulo sobe 10 + 9,5 + 9 + ... = uns 105 px e dura uns 40
+# quadros (0,7 s): da para passar por cima de um soco
 
 # milissegundos que cada quadro fica na tela, por estado; golpe usa o padrao
-TEMPO_QUADRO = {"parado": 110, "andando": 90, "apanhando": 110}
+TEMPO_QUADRO = {"parado": 110, "andando": 90, "apanhando": 110, "pulando": 120}
 TEMPO_QUADRO_GOLPE = 70
 
 # estados que repetem em loop; os outros tocam uma vez e acabam
@@ -63,6 +67,11 @@ class Lutador:
             self.animacoes["derrotado"] = carregar_folha(pasta + "/ko.png", escala)
         else:
             self.animacoes["derrotado"] = [apanhando[-1]]
+        # pulo: usa o jump.png se tiver; senao, pula com o 1o quadro do parado
+        if os.path.exists(pasta + "/jump.png"):
+            self.animacoes["pulando"] = carregar_folha(pasta + "/jump.png", escala)
+        else:
+            self.animacoes["pulando"] = [self.animacoes["parado"][0]]
         for nome in golpes:
             self.animacoes[nome] = carregar_folha(pasta + "/" + golpes[nome]["arquivo"],
                                                   escala)
@@ -85,8 +94,10 @@ class Lutador:
 
         self.x = x                  # centro do corpo (nao o canto do quadro)
         self.chao = chao            # altura dos pes
-        self.teclas = teclas        # {"esquerda", "direita", "golpe1", "golpe2"}
+        self.teclas = teclas        # {"esquerda", "direita", "cima", "golpe1", "golpe2"}
         self.vida = 100
+        self.altura = 0             # quanto esta acima do chao (pulando)
+        self.vel_y = 0              # velocidade vertical (positiva = subindo)
 
         self.estado = "parado"
         self.quadro = 0                             # qual quadro da animacao
@@ -114,16 +125,23 @@ class Lutador:
                 or self.estado == "derrotado")
 
     # ------------------------------------------------------------ caixas
+    def pes(self):
+        """Altura dos pes na tela: o chao, menos o quanto subiu no pulo."""
+        return self.chao - self.altura
+
     def caixa_corpo(self):
-        """Retangulo onde o lutador pode ser atingido."""
-        return pygame.Rect(self.x - MEIO_CORPO, self.chao - ALTURA_CORPO,
+        """Retangulo onde o lutador pode ser atingido (sobe junto no pulo)."""
+        return pygame.Rect(self.x - MEIO_CORPO, self.pes() - ALTURA_CORPO,
                            2 * MEIO_CORPO, ALTURA_CORPO)
 
     def caixa_golpe(self):
         """Retangulo que o golpe atual atinge, na frente do corpo."""
         alcance = self.golpes[self.estado]["alcance"]
-        topo = self.chao - 90
+        topo = self.pes() - 90      # no chao: da altura do peito a da cintura
         altura = 50
+        if self.altura > 0:         # no ar: o golpe vai para baixo, ate os pes
+            topo = self.pes() - 50
+            altura = 60
         if self.olhando_direita:
             return pygame.Rect(self.x, topo, alcance, altura)
         return pygame.Rect(self.x - alcance, topo, alcance, altura)
@@ -150,7 +168,7 @@ class Lutador:
             if tecla is not None and teclas[tecla]:
                 self.golpes_segurados.append(nome)
 
-        # 2) andar, so se estiver livre
+        # 2) andar, so se estiver livre (no ar tambem da para ir para os lados)
         if not self.ocupado():
             andou = False
             if teclas[self.teclas["esquerda"]]:
@@ -159,10 +177,28 @@ class Lutador:
             if teclas[self.teclas["direita"]]:
                 self.x += VELOCIDADE
                 andou = True
-            if andou:
-                self.mudar_estado("andando")
-            else:
-                self.mudar_estado("parado")
+            if self.altura == 0 and self.estado != "pulando":
+                if andou:
+                    self.mudar_estado("andando")
+                else:
+                    self.mudar_estado("parado")
+
+            # pular: so quem esta no chao
+            tecla_cima = self.teclas.get("cima")
+            if tecla_cima is not None and teclas[tecla_cima] and self.altura == 0:
+                self.vel_y = FORCA_PULO
+                self.mudar_estado("pulando")
+
+        # fisica do pulo: sobe, a gravidade freia, desce e para no chao.
+        # Vale em qualquer estado (quem apanha no ar tambem cai)
+        if self.altura > 0 or self.vel_y > 0:
+            self.altura += self.vel_y
+            self.vel_y -= GRAVIDADE
+            if self.altura <= 0:
+                self.altura = 0
+                self.vel_y = 0
+                if self.estado == "pulando":
+                    self.mudar_estado("parado")
 
         # investida: golpes com "investida" andam essa quantidade de pixels por
         # quadro para a frente, ate chegar no quadro do acerto
@@ -181,6 +217,8 @@ class Lutador:
         if acabou:
             if self.vida <= 0:
                 self.mudar_estado("derrotado")
+            elif self.altura > 0:
+                self.mudar_estado("pulando")    # golpe no ar acabou: continua caindo
             else:
                 self.mudar_estado("parado")
 
@@ -259,7 +297,7 @@ class Lutador:
             imagem = pygame.transform.flip(imagem, True, False)
 
         canto_x = self.x - QUADRO_L // 2
-        canto_y = self.chao - QUADRO_A
+        canto_y = self.pes() - QUADRO_A     # a sombra fica no chao, o corpo sobe
         tela.blit(imagem, (canto_x, canto_y))
 
     def desenhar_caixas(self, tela):
@@ -305,3 +343,14 @@ def criar_lutador(personagem, x, chao, teclas):
     """Cria o Lutador de um dos personagens da lista PERSONAGENS."""
     return Lutador(personagem["pasta"], x, chao, teclas, personagem["golpes"],
                    personagem["olha_direita"], personagem["escala"])
+
+
+class NenhumaTecla:
+    """Faz de conta que nenhuma tecla esta apertada (o main usa para travar os
+    lutadores durante o "FIGHT!" e depois do K.O.). Funciona como o
+    get_pressed(): NENHUMA_TECLA[pygame.K_a] da False."""
+    def __getitem__(self, tecla):
+        return False
+
+
+NENHUMA_TECLA = NenhumaTecla()

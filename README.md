@@ -44,6 +44,7 @@ no meio da luta também volta ao início.
 | Ação | Jogador 1 | Jogador 2 |
 |---|---|---|
 | Andar | A / D | ← / → |
+| Pular | W | ↑ |
 | Golpe 1 | F | , (vírgula) |
 | Golpe 2 | G | . (ponto) |
 
@@ -93,6 +94,11 @@ ninja e da Ilusionista (CC-BY-SA 3.0), que exigem atribuição.
   (ansimuz). Uso pessoal e comercial, modificação e redistribuição
   permitidas; crédito não obrigatório.
   https://ansimuz.itch.io/
+
+- **Cenário 4 (Passarela)** — fundo do "Warped City", por Luis Zuno
+  (ansimuz) — CC0. As três camadas do fundo foram juntadas numa imagem e a
+  passarela neon de baixo foi desenhada por nós.
+  https://opengameart.org/content/warped-city
 
 - **Fonte do cronômetro** — "Press Start 2P", por CodeMan38 (The Press
   Start 2P Project Authors). Licença SIL Open Font License 1.1; o texto da

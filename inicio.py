@@ -102,18 +102,21 @@ def desenhar_selecao_cenario(tela, fonte, nomes, miniaturas, selecionado):
     desenhar_texto(tela, fonte, "ESCOLHA A ARENA", 344, 34, BRANCO, 2)
     desenhar_texto(tela, fonte, "ONDE VAI SER A DISPUTA?", 344, 58, AZUL)
 
-    # 3 arenas lado a lado; as miniaturas tem 196x77
+    # arenas lado a lado; a largura da carta depende de quantas sao, e a
+    # miniatura tem a largura da carta menos 12 (6 de cada lado)
+    largura = (640 - 8 * (len(nomes) - 1)) // len(nomes)
     for i in range(len(nomes)):
-        x = 26 + i * 214
+        x = 24 + i * (largura + 8)
         cor = CINZA
 
         if i == selecionado:
             cor = AMARELO
 
-        pygame.draw.rect(tela, (28, 30, 52), (x, 78, 208, 112))
-        tela.blit(miniaturas[i], (x + 6, 84))
-        pygame.draw.rect(tela, cor, (x, 78, 208, 112), 2)
-        desenhar_texto(tela, fonte, nomes[i], x + 104, 177, cor)
+        altura = miniaturas[i].get_height() + 34
+        pygame.draw.rect(tela, (28, 30, 52), (x, 84, largura, altura))
+        tela.blit(miniaturas[i], (x + 6, 90))
+        pygame.draw.rect(tela, cor, (x, 84, largura, altura), 2)
+        desenhar_texto(tela, fonte, nomes[i], x + largura // 2, 84 + altura - 13, cor)
 
     desenhar_texto(tela, fonte, "SETAS: ESCOLHER   ENTER: CONFIRMAR   ESC: VOLTAR", 344, 239, BRANCO)
 
@@ -138,3 +141,29 @@ def desenhar_vitoria(tela, fonte, vencedor, nome_personagem, imagem):
 
 
 
+
+
+
+def primeiro_quadro_parado(personagem):
+    """Primeiro quadro do 'parado' do personagem, recortado (sem a sobra
+    transparente em volta), no tamanho original da folha."""
+    folha = pygame.image.load(personagem["pasta"] + "/idle.png").convert_alpha()
+    largura = 192 // personagem["escala"]
+    quadro = folha.subsurface((0, 0, largura, folha.get_height()))
+    return quadro.subsurface(quadro.get_bounding_rect())
+
+
+def miniatura_personagem(personagem):
+    """Desenho do personagem no tamanho da carta da tela de selecao."""
+    quadro = primeiro_quadro_parado(personagem)
+    fator = personagem["escala"] / 2      # escala 3 fica 1,5x maior
+    return pygame.transform.scale_by(quadro, fator)
+
+
+def imagem_vitoria(personagem):
+    """Desenho do personagem no tamanho da luta, para a tela de vitoria."""
+    quadro = primeiro_quadro_parado(personagem)
+    imagem = pygame.transform.scale_by(quadro, personagem["escala"])
+    if not personagem["olha_direita"]:
+        imagem = pygame.transform.flip(imagem, True, False)
+    return imagem

@@ -58,3 +58,10 @@ def atualizar_vozes():
     if len(fila_vozes) > 0 and not canal.get_busy():
         nome = fila_vozes.pop(0)
         canal.play(vozes[nome])
+
+
+def tocar_musica(arquivo, volume):
+    """Troca a musica de fundo (repete sem parar)."""
+    pygame.mixer.music.load(arquivo)
+    pygame.mixer.music.set_volume(volume)
+    pygame.mixer.music.play(-1)

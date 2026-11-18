@@ -6,6 +6,7 @@ CENARIOS = [
     {"nome": "CENTRO",  "chao": 256},
     {"nome": "BECO",    "chao": 230},
     {"nome": "TELHADO", "chao": 194},
+    {"nome": "PASSARELA", "chao": 250},
 ]
 
 
@@ -25,9 +26,13 @@ def montar_centro():
 
 
 def carregar_cenario(numero):
-    """Devolve a imagem (688x272) do cenario numero 0, 1 ou 2."""
+    """Devolve a imagem (688x272) do cenario numero 0, 1, 2 ou 3."""
     if numero == 0:
         return montar_centro()
     if numero == 1:
         return pygame.image.load("assets/cenario/cenario2.png").convert()
-    return pygame.image.load("assets/cenario/cenario3.png").convert()
+    if numero == 2:
+        return pygame.image.load("assets/cenario/cenario3.png").convert()
+    # cenario 4: montado a partir do "Warped City" (fundo em 3 camadas) com
+    # uma passarela neon desenhada embaixo
+    return pygame.image.load("assets/cenario/cenario4.png").convert()
