@@ -32,13 +32,18 @@ Testado em Python 3.14.6 com pygame-ce 2.5.8.
 
 ## Controles
 
-| Ação | Jogador 1 | Jogador 2 |
+| Ação | Jogador 1 (lutadora) | Jogador 2 (punk) |
 |---|---|---|
 | Andar | A / D | ← / → |
-| Pular | W | ↑ |
-| Soco | [tecla] | [tecla] |
-| Chute | [tecla] | [tecla] |
-| Defender | [tecla] | [tecla] |
+| Soco | F | , (vírgula) |
+| Segundo golpe | G (chute) | . (ponto): soco forte |
+
+O punk não tem animação de chute no pacote de sprites. O segundo golpe dele
+é um soco forte: mais lento, com uma investida para a frente, mais dano e
+mais alcance.
+
+**TAB** mostra as caixas de colisão (corpo em azul, golpe em vermelho, e em
+dourado no quadro em que o golpe acerta).
 
 ## Objetivo
 
