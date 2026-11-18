@@ -1,6 +1,5 @@
 import pygame
-from interface import (desenhar_barra_vida, desenhar_cronometro, iniciar_musica,
-                       carregar_som_soco)
+from interface import desenhar_barra_vida, desenhar_cronometro, iniciar_musica
 from inicio import (desenhar_inicio, desenhar_selecao_personagem,
                     desenhar_selecao_cenario, desenhar_vitoria, desenhar_fight,
                     desenhar_ko, desenhar_tempo, miniatura_personagem,
@@ -18,7 +17,6 @@ TEMPO_FIGHT = 1500      # ms com o "FIGHT!" na tela antes de poder lutar
 TEMPO_KO = 2500         # ms com o "K.O." na tela antes da tela de vitoria
 
 pygame.init()
-som_soco = carregar_som_soco()
 carregar_sons()
 fonte_cronometro = pygame.font.Font("assets/fontes/PressStart2P-Regular.ttf", 16)
 fonte_menu = pygame.font.Font("assets/fontes/PressStart2P-Regular.ttf", 8)
@@ -27,12 +25,14 @@ pygame.display.set_caption("Insper Fighter")
 relogio = pygame.time.Clock()
 tela = pygame.Surface((LARGURA, ALTURA))
 
-# jogador 1: A/D anda, W pula, F golpe 1, G golpe 2
+# jogador 1: A/D anda, W pula, E ou F golpe 1, Q ou G golpe 2
 TECLAS_J1 = {"esquerda": pygame.K_a, "direita": pygame.K_d, "cima": pygame.K_w,
-             "golpe1": pygame.K_f, "golpe2": pygame.K_g}
-# jogador 2: setas andam, seta para cima pula, virgula golpe 1, ponto golpe 2
+             "golpe1": [pygame.K_e, pygame.K_f], "golpe2": [pygame.K_q, pygame.K_g]}
+# jogador 2: setas andam, seta para cima pula, Shift direito ou virgula golpe 1,
+# ponto e virgula/dois pontos (a mesma tecla, ao lado do ponto) ou ponto golpe 2
 TECLAS_J2 = {"esquerda": pygame.K_LEFT, "direita": pygame.K_RIGHT, "cima": pygame.K_UP,
-             "golpe1": pygame.K_COMMA, "golpe2": pygame.K_PERIOD}
+             "golpe1": [pygame.K_RSHIFT, pygame.K_COMMA],
+             "golpe2": [pygame.K_SEMICOLON, pygame.K_COLON, pygame.K_PERIOD]}
 
 
 # ------------------------------------------------------------ imagens dos menus
@@ -129,8 +129,6 @@ while rodando:
         elif estado == "luta":
             if tecla == pygame.K_TAB:
                 mostrar_caixas = not mostrar_caixas
-            elif tecla == pygame.K_e or tecla == pygame.K_RSHIFT:
-                som_soco.play()
             elif tecla == pygame.K_ESCAPE:
                 estado = "inicio"
                 tocar_musica("assets/som/menu.ogg", 0.3)

@@ -31,6 +31,19 @@ TEMPO_QUADRO_GOLPE = 70
 ESTADOS_EM_LOOP = ["parado", "andando", "derrotado"]
 
 
+def tecla_apertada(teclas, tecla):
+    """Diz se a tecla esta apertada. "tecla" pode ser uma tecla so, uma lista
+    de teclas (qualquer uma delas serve) ou None (golpe sem tecla)."""
+    if tecla is None:
+        return False
+    if isinstance(tecla, list):
+        for t in tecla:
+            if teclas[t]:
+                return True
+        return False
+    return teclas[tecla]
+
+
 def carregar_folha(caminho, escala=ESCALA):
     """Carrega uma folha de sprites e devolve a lista dos quadros, ja ampliados.
 
@@ -154,18 +167,15 @@ class Lutador:
         #    (golpe sem tecla definida e ignorado, em vez de travar o jogo)
         if not self.ocupado():
             for nome in self.golpes:
-                tecla = self.tecla_do_golpe[nome]
-                if tecla is None:
-                    continue
-                if teclas[tecla] and nome not in self.golpes_segurados:
+                apertada = tecla_apertada(teclas, self.tecla_do_golpe[nome])
+                if apertada and nome not in self.golpes_segurados:
                     self.mudar_estado(nome)
                     self.golpe_conferido = False
                     break
 
         self.golpes_segurados = []
         for nome in self.golpes:
-            tecla = self.tecla_do_golpe[nome]
-            if tecla is not None and teclas[tecla]:
+            if tecla_apertada(teclas, self.tecla_do_golpe[nome]):
                 self.golpes_segurados.append(nome)
 
         # 2) andar, so se estiver livre (no ar tambem da para ir para os lados)
