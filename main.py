@@ -200,11 +200,11 @@ while rodando:
 
     elif estado == "selecao_j1":
         desenhar_selecao_personagem(tela, fonte_menu, nomes_personagens, miniaturas,
-                                    cursor, 1)
+                                    cursor, 1, None, PERSONAGENS[cursor]["descricao"])
 
     elif estado == "selecao_j2":
         desenhar_selecao_personagem(tela, fonte_menu, nomes_personagens, miniaturas,
-                                    cursor, 2, escolha_j1)
+                                    cursor, 2, escolha_j1, PERSONAGENS[cursor]["descricao"])
 
     elif estado == "cenario":
         desenhar_selecao_cenario(tela, fonte_menu, nomes_cenarios,

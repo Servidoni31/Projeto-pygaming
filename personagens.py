@@ -62,18 +62,25 @@ GOLPES_RENEGADE = {
 }
 
 # Todos os personagens do jogo. "olha_direita": para que lado o desenho
-# original olha; "escala": quanto a folha e ampliada na tela.
+# original olha; "escala": quanto a folha e ampliada na tela; "descricao":
+# aparece na tela de selecao (sem acento: a fonte do jogo nao tem acentos).
 PERSONAGENS = [
     {"nome": "Lutadora",    "pasta": "assets/sprites/brawler-girl",
-     "golpes": GOLPES_BRAWLER_GIRL, "olha_direita": True,  "escala": 2},
+     "golpes": GOLPES_BRAWLER_GIRL, "olha_direita": True,  "escala": 2,
+     "descricao": "RAPIDA E DE LONGE: O SOCO DELA CHEGA ONDE NINGUEM CHEGA"},
     {"nome": "Punk",        "pasta": "assets/sprites/enemy-punk",
-     "golpes": GOLPES_ENEMY_PUNK,   "olha_direita": False, "escala": 2},
+     "golpes": GOLPES_ENEMY_PUNK,   "olha_direita": False, "escala": 2,
+     "descricao": "BRIGA DE PERTO. O SOCO FORTE AVANCA E NAO PERDOA"},
     {"nome": "Ninja",       "pasta": "assets/sprites/ninja",
-     "golpes": GOLPES_NINJA,        "olha_direita": True,  "escala": 2},
+     "golpes": GOLPES_NINJA,        "olha_direita": True,  "escala": 2,
+     "descricao": "SILENCIOSO. A VOADORA DELE CRUZA MEIA ARENA"},
     {"nome": "Ilusionista", "pasta": "assets/sprites/ilusionista",
-     "golpes": GOLPES_ILUSIONISTA,  "olha_direita": True,  "escala": 2},
+     "golpes": GOLPES_ILUSIONISTA,  "olha_direita": True,  "escala": 2,
+     "descricao": "ENGANA COM O SOCO E ENTRA COM O OMBRO"},
     {"nome": "Agente Smith", "pasta": "assets/sprites/agente",
-     "golpes": GOLPES_AGENTE,       "olha_direita": True,  "escala": 3},
+     "golpes": GOLPES_AGENTE,       "olha_direita": True,  "escala": 3,
+     "descricao": "VEIO DE OUTRO JOGO SO PARA DEIXAR A MATRIX EM ORDEM"},
     {"nome": "Renegade",    "pasta": "assets/sprites/renegade",
-     "golpes": GOLPES_RENEGADE,     "olha_direita": True,  "escala": 3},
+     "golpes": GOLPES_RENEGADE,     "olha_direita": True,  "escala": 3,
+     "descricao": "LENTO, MACHUCADO E COM O CHUTE MAIS PESADO DA RUA"},
 ]

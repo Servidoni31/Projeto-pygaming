@@ -64,7 +64,7 @@ def desenhar_tempo(tela, fonte):
 
 
 def desenhar_selecao_personagem(tela, fonte, nomes, imagens, selecionado, jogador,
-                                escolha_j1=None):
+                                escolha_j1=None, descricao=""):
     desenhar_fundo(tela)
     desenhar_texto(tela, fonte, "ESCOLHA SEU LUTADOR", 344, 26, BRANCO, 2)
     desenhar_texto(tela, fonte, "JOGADOR " + str(jogador), 344, 50, AZUL)
@@ -90,8 +90,11 @@ def desenhar_selecao_personagem(tela, fonte, nomes, imagens, selecionado, jogado
         if escolha_j1 == i:
             desenhar_texto(tela, fonte, "J1", x + 184, y + 12, AZUL)
 
+    # descricao do personagem destacado, logo abaixo das cartas
+    desenhar_texto(tela, fonte, descricao, 344, 229, AMARELO)
+
     desenhar_texto(tela, fonte, "SETAS: ESCOLHER   ENTER: CONFIRMAR   ESC: VOLTAR",
-                   344, 239, BRANCO)
+                   344, 246, BRANCO)
 
 
 def desenhar_selecao_cenario(tela, fonte, nomes, miniaturas, selecionado):
