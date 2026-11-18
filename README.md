@@ -32,15 +32,29 @@ Testado em Python 3.14.6 com pygame-ce 2.5.8.
 
 ## Controles
 
-| Ação | Jogador 1 (lutadora) | Jogador 2 (punk) |
+| Ação | Jogador 1 | Jogador 2 |
 |---|---|---|
 | Andar | A / D | ← / → |
-| Soco | F | , (vírgula) |
-| Segundo golpe | G (chute) | . (ponto): soco forte |
+| Golpe 1 | F | , (vírgula) |
+| Golpe 2 | G | . (ponto) |
 
-O punk não tem animação de chute no pacote de sprites. O segundo golpe dele
-é um soco forte: mais lento, com uma investida para a frente, mais dano e
-mais alcance.
+## Personagens
+
+Cada personagem tem dois golpes; o golpe 1 é sempre o mais rápido.
+
+| Personagem | Golpe 1 | Golpe 2 | Estilo |
+|---|---|---|---|
+| Lutadora | soco (5) | chute (12) | maior alcance do jogo, mantém distância |
+| Punk | soco (10) | soco forte (14) | forte de perto; o soco forte avança |
+| Ninja | soco (6) | voadora (11) | a voadora cruza meia tela |
+| Ilusionista | soco (7) | investida (11) | avança com o ombro |
+| Agente Smith | soco (7) | chute (10) | veio de outro jogo — e dá para ver |
+| Renegade | soco (8) | chute (13) | lento e pesado, alcance curto |
+
+O punk não tem animação de chute no pacote de sprites; o segundo golpe dele
+é a mesma animação do soco, mais lenta e com investida. O Agente Smith e o
+Renegade são de pacotes de 8 bits e foram mantidos com o visual original, de
+propósito.
 
 **TAB** mostra as caixas de colisão (corpo em azul, golpe em vermelho, e em
 dourado no quadro em que o golpe acerta).
@@ -52,9 +66,11 @@ quem tiver mais vida.
 
 ## Créditos dos assets
 
-A arte e as trilhas são de uso livre e não exigem atribuição; o crédito
-abaixo é por transparência. A fonte do cronômetro é a exceção: a licença
-OFL pede que o crédito e o texto da licença acompanhem o projeto.
+A arte, as trilhas e quase todos os sons são de uso livre e não exigem
+atribuição; o crédito abaixo é por transparência. As exceções são a fonte
+do cronômetro (a licença OFL pede que o crédito e o texto da licença
+acompanhem o projeto), o som do soco forte (OGA-BY 3.0) e os sprites do
+ninja e da Ilusionista (CC-BY-SA 3.0), que exigem atribuição.
 
 - **Cenário 1 e trilha sonora** — "Cyberpunk Street Environment", por
   Luis Zuno (ansimuz) — CC0
@@ -74,24 +90,55 @@ OFL pede que o crédito e o texto da licença acompanhem o projeto.
   licença está em `assets/fontes/OFL.txt`.
   https://fonts.google.com/specimen/Press+Start+2P
 
-  - **Efeito sonoro de soco** — arquivo `punch.ogg`, do pacote
+- **Efeito sonoro de soco** — arquivo `assets/som/punch.ogg`, do pacote
   "Rpg Sound Effect Pack", por Delta12 Studio — CC0.
   https://opengameart.org/content/rpg-sound-effect-pack
+
+- **Sons de golpe** (`assets/som/efeitos/`, menos `golpe_forte2.ogg`) —
+  "37 hits/punches", por Independent.nu — CC0
+  https://opengameart.org/content/37-hitspunches
+
+- **Som do soco forte** (`assets/som/efeitos/golpe_forte2.ogg`) — "Fleshy
+  Fight Sounds", por will_leamon — OGA-BY 3.0.
+  Additional Sound FX by Will Leamon.
+  https://opengameart.org/content/fleshy-fight-sounds
+
+- **Voz do locutor** (`assets/som/voz/`) — "Voiceover Pack: Fighter", por
+  Kenney (www.kenney.nl) — CC0
+  https://opengameart.org/content/voiceover-pack-fighter-40-taunts
+
+Os sons de golpe foram cortados (silêncio do começo e do fim), passados
+para mono e normalizados no mesmo volume.
 
 O cenário 2 foi montado a partir da imagem de divulgação do pacote, que
 vinha com dois lutadores desenhados nela; a região foi coberta com uma
 faixa limpa da própria calçada.
 
-Também foram avaliados durante a escolha, mas não utilizados:
+- **Ninja e Ilusionista** — "Platformer or Fighter Sprites", enviado por
+  Fracture; sprites originais de KZR e Jason Buividas (Team SD, para
+  Shinobi Densetsu), sobre bases de Miguel Duarte e Clint Bellanger —
+  CC-BY-SA 3.0 / GPL 3.0.
+  https://opengameart.org/content/platformer-or-fighter-sprites
+  Modificações: o ninja é o "Blue Ninja" do pacote; os dois foram
+  recoloridos com a paleta do Streets of Fight e os quadros foram
+  remontados no formato usado pelo jogo. Por causa da licença CC-BY-SA, as
+  versões modificadas (`assets/sprites/ninja/` e
+  `assets/sprites/ilusionista/`) são distribuídas sob a mesma licença.
+
+- **Agente Smith** — "Agent Character", por Chasersgaming — CC0
+  https://opengameart.org/content/agent-character
+
+- **Renegade** — "Brawler Asset Character 'Renegade' SMS", por
+  Chasersgaming — CC0
+  https://opengameart.org/content/brawler-asset-character-renegade-sms
+
+  Os dois foram mantidos com as cores originais; só os quadros foram
+  remontados no formato usado pelo jogo.
+
+Também foi avaliado durante a escolha, mas não utilizado:
 
 - "Brawler Asset Character 'Vigilante' SMS", por Chasersgaming — CC0
   https://opengameart.org/content/brawler-asset-character-vigilante-sms
-- "Agent Character", por Chasersgaming — CC0
-  https://opengameart.org/content/agent-character
-- "Platformer or Fighter Sprites", por Fracture — CC-BY-SA 3.0 / GPL 3.0
-  https://opengameart.org/content/platformer-or-fighter-sprites
-  Descartado por exigir share-alike e por não combinar em escala e paleta
-  com o cenário escolhido.
 
 ## Uso de inteligência artificial
 
