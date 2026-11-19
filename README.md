@@ -93,6 +93,7 @@ do cronômetro (a licença OFL pede que o crédito e o texto da licença
 acompanhem o projeto), o som do soco forte (OGA-BY 3.0) e os sprites do
 ninja e da Ilusionista (CC-BY-SA 3.0), que exigem atribuição.
 
+
 - **Cenário 1 e trilha sonora** — "Cyberpunk Street Environment", por
   Luis Zuno (ansimuz) — CC0
   https://opengameart.org/content/cyberpunk-street-environment
@@ -173,10 +174,12 @@ linha `Co-Authored-By: Claude` na mensagem.
 
 | Origem | Linhas | % |
 |---|---|---|
-| Claude (Anthropic) | 723 | 85% |
+| Claude (João Servidoni) | 723 | 82% |
 | Guilherme Treves | 70 | 8% |
 | João Damiani (parte com sugestões do GitHub Copilot) | 43 | 5% |
-| João Servidoni, sem IA | 56 | 8% |
+| João Servidoni, sem IA| 41 | 5% |
+
+
 
 Por arquivo:
 - **Feitos com o Claude:** `lutador.py`, `personagens.py`, `sons.py`,
@@ -210,6 +213,11 @@ O Damiani usou o GitHub Copilot nas funções do `interface.py`.
 Toda função ou classe feita ou alterada com IA tem um comentário logo acima:
 `# feito com Claude (IA)`, `# feito pelo Treves, adaptado com Claude (IA)` ou
 `# feito com CoPilot`.
+## O que cada um fez mais ou menos:
+{João Servidoni-todos os sprites e personagens decidindo vida golpes e etc,debug de cada versão,junto ao damiani testou e dediram juntos a colocar escudo e dash}
+{João Damiani-aplicar sons,teclas,debug,barra de vida,testou junto ao Servidoni e decidiram colocar escudo e dash}
+{Treves-fez todos os menus e etc}
+
 
 ### Anexo — principais pedidos feitos ao Claude
 
