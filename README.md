@@ -173,10 +173,10 @@ linha `Co-Authored-By: Claude` na mensagem.
 
 | Origem | Linhas | % |
 |---|---|---|
-| Claude (Anthropic) | 739 | 85% |
+| Claude (Anthropic) | 723 | 85% |
 | Guilherme Treves | 70 | 8% |
 | João Damiani (parte com sugestões do GitHub Copilot) | 43 | 5% |
-| João Servidoni, sem IA | 16 | 2% |
+| João Servidoni, sem IA | 56 | 8% |
 
 Por arquivo:
 - **Feitos com o Claude:** `lutador.py`, `personagens.py`, `sons.py`,
@@ -213,12 +213,12 @@ Toda função ou classe feita ou alterada com IA tem um comentário logo acima:
 
 ### Anexo — principais pedidos feitos ao Claude
 
-1. Montar a estrutura do jogo: lutador com animações, golpes, dano e K.O.
-2. Equilibrar dano, alcance e velocidade dos golpes entre os lutadores.
-3. Adicionar efeitos sonoros e as falas do locutor ("FIGHT", "K.O.", vencedor), deixando a voz mais intensa.
-4. Passar de 2 para 6 personagens, recolorindo os sprites no estilo cyberpunk.
-5. Criar o menu, a seleção de personagem e de arena, a tela de vitória e uma 4ª arena.
-6. Adicionar descrição curta para cada personagem.
+1. Ajudar Montar a estrutura do jogo: lutador com animações, golpes, dano e K.O.
+2. Ajudar Equilibrar dano, alcance e velocidade dos golpes entre os lutadores.
+3. Ajudar a Adicionar efeitos sonoros e as falas do locutor ("FIGHT", "K.O.", vencedor), deixando a voz mais intensa.
+4. Ajudar Passar de 2 para 6 personagens, recolorindo os sprites no estilo cyberpunk.
+5. Ajudar Criar o menu, a seleção de personagem e de arena, a tela de vitória e uma 4ª arena.
+6. Ajudar Adicionar descrição curta para cada personagem.
 7. Adicionar pulo, defesa (segurar para baixo) e dash (toque duplo) para escapar de combos.
 8. Tirar as funções do `main.py` (pedido do Damiani) e remapear as teclas de golpe.
 9. Corrigir as caixas de colisão que apareciam ao apertar TAB sem querer (atalho passou para F1).
