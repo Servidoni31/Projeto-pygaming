@@ -10,6 +10,7 @@ CENARIOS = [
 ]
 
 
+# feito com Claude (IA)
 def montar_centro():
     """O cenario 1 vem em camadas: fundo e meio sao pedacos que se repetem
     na horizontal; a frente ja tem a largura da tela."""
@@ -25,6 +26,7 @@ def montar_centro():
     return tela
 
 
+# feito com Claude (IA)
 def carregar_cenario(numero):
     """Devolve a imagem (688x272) do cenario numero 0, 1, 2 ou 3."""
     if numero == 0:

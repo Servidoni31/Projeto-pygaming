@@ -1,7 +1,7 @@
 
 import pygame
 
-# feito com CoPilot
+# feito com CoPilot, ajustado com Claude (IA)
 def desenhar_barra_vida(tela, x, y, vida, espelhada=False):
     pontos = [
         (x,       y + 16),
@@ -47,7 +47,7 @@ def desenhar_barra_vida(tela, x, y, vida, espelhada=False):
     pygame.draw.polygon(tela, (12, 10, 24), pontos, 4)
     pygame.draw.polygon(tela, (255, 207, 92), pontos, 1)
 
-# feito com CoPilot
+# feito com CoPilot, ajustado com Claude (IA)
 def desenhar_cronometro(tela, fonte, tempo_restante):
     numero = str(tempo_restante)
     # antialias False: fonte pixelada fica nitida, sem borrar

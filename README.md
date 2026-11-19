@@ -164,11 +164,65 @@ Também foi avaliado durante a escolha, mas não utilizado:
 
 ## Uso de inteligência artificial
 
-[Preencher antes da entrega. O enunciado exige:]
+### Proporção
 
-- proporção de código gerado por IA, com a fonte (link do histórico exportado)
-- um parágrafo explicando como a IA foi usada no projeto
-- as interações no Anexo
-- comentário `# feito com CoPilot` em funções e classes sugeridas por IA
+A conta foi feita com `git blame` em todos os arquivos `.py`, contando as
+linhas de código (sem linhas em branco e sem comentários). Uma linha conta como
+"Claude" quando entrou num commit feito com o Claude, ou seja, um commit com a
+linha `Co-Authored-By: Claude` na mensagem.
+
+| Origem | Linhas | % |
+|---|---|---|
+| Claude (Anthropic) | 739 | 85% |
+| Guilherme Treves | 70 | 8% |
+| João Damiani (parte com sugestões do GitHub Copilot) | 43 | 5% |
+| João Servidoni, sem IA | 16 | 2% |
+
+Por arquivo:
+- **Feitos com o Claude:** `lutador.py`, `personagens.py`, `sons.py`,
+  `cenarios.py` e quase todo o `main.py`.
+- **`inicio.py`:** as telas são do Treves. O Claude adaptou a seleção de
+  personagem e de cenário e acrescentou as funções de miniatura e de imagem de
+  vitória.
+- **`interface.py`:** é do Damiani, com funções sugeridas pelo Copilot e
+  pequenos ajustes do Claude.
+
+Fonte: histórico da conversa com o Claude — [LINK DO HISTÓRICO DO CLAUDE].
+
+### Como a IA foi usada
+
+O grupo decidiu o jogo, as regras e o escopo, e dividiu as tarefas. O Treves
+fez as telas e o Damiani fez a barra de vida, o cronômetro e a música. Usamos o
+Claude (Anthropic) como programador, em conversa, pedindo uma coisa de cada vez:
+a classe `Lutador` com os estados de animação, as caixas de acerto, o pulo, a
+defesa, o dash, o laço principal com a troca de telas, o sistema de som e a
+lista de personagens. O Claude também escreveu scripts fora do jogo para
+recolorir os sprites no estilo cyberpunk e para tratar os áudios do locutor.
+Nossa parte em cada pedido foi:
+- testar cada versão jogando;
+- apontar o que estava errado (golpes que não davam dano, alcance
+  desequilibrado, teclas ruins, sprites feios);
+- escolher personagens, arenas e sons;
+- aprovar cada mudança antes de ir para o GitHub.
+
+O Damiani usou o GitHub Copilot nas funções do `interface.py`.
+
+Toda função ou classe feita ou alterada com IA tem um comentário logo acima:
+`# feito com Claude (IA)`, `# feito pelo Treves, adaptado com Claude (IA)` ou
+`# feito com CoPilot`.
+
+### Anexo — principais pedidos feitos ao Claude
+
+1. Montar a estrutura do jogo: lutador com animações, golpes, dano e K.O.
+2. Equilibrar dano, alcance e velocidade dos golpes entre os lutadores.
+3. Adicionar efeitos sonoros e as falas do locutor ("FIGHT", "K.O.", vencedor), deixando a voz mais intensa.
+4. Passar de 2 para 6 personagens, recolorindo os sprites no estilo cyberpunk.
+5. Criar o menu, a seleção de personagem e de arena, a tela de vitória e uma 4ª arena.
+6. Adicionar descrição curta para cada personagem.
+7. Adicionar pulo, defesa (segurar para baixo) e dash (toque duplo) para escapar de combos.
+8. Tirar as funções do `main.py` (pedido do Damiani) e remapear as teclas de golpe.
+9. Corrigir as caixas de colisão que apareciam ao apertar TAB sem querer (atalho passou para F1).
+
+O histórico completo está no link acima.
 
 Todo o código entregue é compreendido pelos integrantes do grupo.

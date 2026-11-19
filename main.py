@@ -1,3 +1,5 @@
+# feito com Claude (IA): laco principal e troca de telas, a partir do
+# esqueleto inicial do grupo (janela, relogio e import das funcoes).
 import pygame
 from interface import desenhar_barra_vida, desenhar_cronometro, iniciar_musica
 from inicio import (desenhar_inicio, desenhar_selecao_personagem,

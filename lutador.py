@@ -41,6 +41,7 @@ TEMPO_QUADRO_GOLPE = 70
 ESTADOS_EM_LOOP = ["parado", "andando", "derrotado", "defendendo", "dash"]
 
 
+# feito com Claude (IA)
 def tecla_apertada(teclas, tecla):
     """Diz se a tecla esta apertada. "tecla" pode ser uma tecla so, uma lista
     de teclas (qualquer uma delas serve) ou None (golpe sem tecla)."""
@@ -54,6 +55,7 @@ def tecla_apertada(teclas, tecla):
     return teclas[tecla]
 
 
+# feito com Claude (IA)
 def carregar_folha(caminho, escala=ESCALA):
     """Carrega uma folha de sprites e devolve a lista dos quadros, ja ampliados.
 
@@ -72,6 +74,7 @@ def carregar_folha(caminho, escala=ESCALA):
     return quadros
 
 
+# feito com Claude (IA)
 class Lutador:
     """Um lutador: posicao, vida, teclas, golpes, animacao e desenho."""
 
@@ -426,6 +429,7 @@ class Lutador:
             pygame.draw.rect(tela, cor, self.caixa_golpe(), 1)
 
 
+# feito com Claude (IA)
 def atualizar_luta(j1, j2, teclas):
     """Atualiza os dois lutadores num quadro do jogo.
 
@@ -466,12 +470,14 @@ def atualizar_luta(j1, j2, teclas):
     return sons
 
 
+# feito com Claude (IA)
 def criar_lutador(personagem, x, chao, teclas):
     """Cria o Lutador de um dos personagens da lista PERSONAGENS."""
     return Lutador(personagem["pasta"], x, chao, teclas, personagem["golpes"],
                    personagem["olha_direita"], personagem["escala"])
 
 
+# feito com Claude (IA)
 class NenhumaTecla:
     """Faz de conta que nenhuma tecla esta apertada (o main usa para travar os
     lutadores durante o "FIGHT!" e depois do K.O.). Funciona como o

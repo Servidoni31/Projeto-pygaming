@@ -18,6 +18,7 @@ efeitos = {}    # "fraco" -> [Sound, Sound, ...]
 vozes = {}      # "fight" -> Sound
 
 
+# feito com Claude (IA)
 def carregar_sons():
     """Carrega todos os sons. Chamar uma vez, depois do pygame.init()."""
     pygame.mixer.set_reserved(1)    # canal 0 so para a voz do locutor
@@ -33,6 +34,7 @@ def carregar_sons():
         vozes[nome] = som
 
 
+# feito com Claude (IA)
 def tocar_efeito(tipo):
     """Toca uma das variacoes do efeito ("fraco", "medio" ou "forte")."""
     random.choice(efeitos[tipo]).play()
@@ -41,6 +43,7 @@ def tocar_efeito(tipo):
 fila_vozes = []  # falas esperando a vez, na ordem
 
 
+# feito com Claude (IA)
 def tocar_vozes(nomes):
     """Poe falas na fila para tocarem uma depois da outra.
 
@@ -51,6 +54,7 @@ def tocar_vozes(nomes):
         fila_vozes.append(nome)
 
 
+# feito com Claude (IA)
 def atualizar_vozes():
     """Se o locutor esta calado e tem fala na fila, toca a proxima."""
     # o canal 0 fica reservado para a voz, assim os efeitos nunca a cortam
@@ -60,6 +64,7 @@ def atualizar_vozes():
         canal.play(vozes[nome])
 
 
+# feito com Claude (IA)
 def tocar_musica(arquivo, volume):
     """Troca a musica de fundo (repete sem parar)."""
     pygame.mixer.music.load(arquivo)

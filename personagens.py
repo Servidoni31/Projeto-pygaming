@@ -1,3 +1,4 @@
+# feito com Claude (IA)
 # So dados: os golpes e a lista de personagens. Este arquivo nao importa nada,
 # para o lutador.py poder importar daqui sem import circular.
 

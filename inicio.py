@@ -51,18 +51,22 @@ def desenhar_inicio(tela, fonte):
     desenhar_texto(tela, fonte, "ESC: SAIR", 344, 239, CINZA)
 
 
+# feito pelo Treves, ajustado com Claude (IA)
 def desenhar_fight(tela, fonte):
     desenhar_texto(tela, fonte, "FIGHT!", 344, 120, AMARELO, 5)
 
 
+# feito pelo Treves, ajustado com Claude (IA)
 def desenhar_ko(tela, fonte):
     desenhar_texto(tela, fonte, "K.O.", 344, 120, AMARELO, 6)
 
 
+# feito com Claude (IA)
 def desenhar_tempo(tela, fonte):
     desenhar_texto(tela, fonte, "TEMPO!", 344, 120, AMARELO, 5)
 
 
+# feito pelo Treves, adaptado com Claude (IA)
 def desenhar_selecao_personagem(tela, fonte, nomes, imagens, selecionado, jogador,
                                 escolha_j1=None, descricao=""):
     desenhar_fundo(tela)
@@ -97,6 +101,7 @@ def desenhar_selecao_personagem(tela, fonte, nomes, imagens, selecionado, jogado
                    344, 246, BRANCO)
 
 
+# feito pelo Treves, adaptado com Claude (IA)
 def desenhar_selecao_cenario(tela, fonte, nomes, miniaturas, selecionado):
     desenhar_fundo(tela)
     desenhar_texto(tela, fonte, "ESCOLHA A ARENA", 344, 34, BRANCO, 2)
@@ -144,6 +149,7 @@ def desenhar_vitoria(tela, fonte, vencedor, nome_personagem, imagem):
 
 
 
+# feito com Claude (IA)
 def primeiro_quadro_parado(personagem):
     """Primeiro quadro do 'parado' do personagem, recortado (sem a sobra
     transparente em volta), no tamanho original da folha."""
@@ -153,6 +159,7 @@ def primeiro_quadro_parado(personagem):
     return quadro.subsurface(quadro.get_bounding_rect())
 
 
+# feito com Claude (IA)
 def miniatura_personagem(personagem):
     """Desenho do personagem no tamanho da carta da tela de selecao."""
     quadro = primeiro_quadro_parado(personagem)
@@ -160,6 +167,7 @@ def miniatura_personagem(personagem):
     return pygame.transform.scale_by(quadro, fator)
 
 
+# feito com Claude (IA)
 def imagem_vitoria(personagem):
     """Desenho do personagem no tamanho da luta, para a tela de vitoria."""
     quadro = primeiro_quadro_parado(personagem)
