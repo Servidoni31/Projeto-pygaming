@@ -187,7 +187,7 @@ Por arquivo:
 - **`interface.py`:** é do Damiani, com funções sugeridas pelo Copilot e
   pequenos ajustes do Claude.
 
-Fonte: histórico da conversa com o Claude — [LINK DO HISTÓRICO DO CLAUDE].
+Fonte: histórico da conversa com o Claude — https://claude.ai/share/62c00f9e-9348-432d-ac7f-0a57f1bb2778 .
 
 ### Como a IA foi usada
 
