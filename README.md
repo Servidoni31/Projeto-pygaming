@@ -214,9 +214,9 @@ Toda função ou classe feita ou alterada com IA tem um comentário logo acima:
 `# feito com Claude (IA)`, `# feito pelo Treves, adaptado com Claude (IA)` ou
 `# feito com CoPilot`.
 ## O que cada um fez mais ou menos:
-{João Servidoni-todos os sprites e personagens decidindo vida golpes e etc,debug de cada versão,junto ao damiani testou e dediram juntos a colocar escudo e dash}
-{João Damiani-aplicar sons,teclas,debug,barra de vida,testou junto ao Servidoni e decidiram colocar escudo e dash}
-{Treves-fez todos os menus e etc}
+1:João Servidoni-todos os sprites e personagens decidindo vida golpes e etc,debug de cada versão,junto ao damiani testou e dediram juntos a colocar escudo e dash
+2:João Damiani-aplicar sons,teclas,debug,barra de vida,testou junto ao Servidoni e decidiram colocar escudo e dash
+3:Treves-fez todos os menus e etc
 
 
 ### Anexo — principais pedidos feitos ao Claude
