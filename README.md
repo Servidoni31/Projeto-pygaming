@@ -11,7 +11,10 @@ Projeto final de Design de Software — Insper, 2026/2.
 
 ## Vídeo
 
-[LINK DO VÍDEO AQUI — exigido pelo enunciado, precisa estar acessível ao professor]
+https://youtu.be/UL6mqcOFpj4
+
+Demonstração do jogo com explicação dos controles. Observação: o golpe 2 do
+jogador 2 é a tecla **;** (ponto e vírgula).
 
 ## Como rodar
 
